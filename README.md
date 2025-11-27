@@ -11,16 +11,16 @@ Voici quelques captures d'écran montrant plusieurs cartes produites à l'aide d
 Les programmes montrés n'utilisent aucun fichier image, le contour des départements est dessiné grâce à la fonction `polygone` de `fltk`, en s'appuyant sur les [Contours des départements français issus d'OpenStreetMap](https://www.data.gouv.fr/fr/datasets/contours-des-departements-francais-issus-d-openstreetmap/), au format [shapefile](https://www.data.gouv.fr/fr/datasets/r/eb36371a-761d-44a8-93ec-3d728bec17ce) (version 2018).
 
 
-![Températures maximales par département le 01/07/2018](capture_dep.png)
+![Températures maximales par département le 01/07/2018](image_readME/capture_dep.png)
 
 La figure ci-dessus montre la carte des départements métropolitains français, où la couleur de fond de chaque département correspond à la température maximale moyenne observée le premier juillet 2018. Ces données sont issues du dataset [Température quotidienne départementale (depuis janvier 2018)](https://www.data.gouv.fr/fr/datasets/temperature-quotidienne-departementale-depuis-janvier-2018/), téléchargées au format [JSON](https://docs.python.org/3/library/json.html).
 Une frise des couleurs par température est dessinée sur le bord droit de la fenêtre.
 
-![Températures maximales par station météo le 01/07/2018](capture_stations.png)
+![Températures maximales par station météo le 01/07/2018](image_readME/capture_stations.png)
 
 La figure ci-dessus montre la carte des départements métropolitains français, ainsi que la température maximale mesurée le premier juillet 2018 par un ensemble de stations météo. Ces données sont issues du dataset [Données changement climatique - SQR (Séries Quotidiennes de Référence)](https://www.data.gouv.fr/fr/datasets/donnees-changement-climatique-sqr-series-quotidiennes-de-reference/), téléchargées au format ZIP (archive contenant des fichiers CSV).
 
-![Licenciés de basket-ball en 2011 en Seine-et-Marne](capture_basket.png) 
+![Licenciés de basket-ball en 2011 en Seine-et-Marne](image_readME/capture_basket.png) 
 
 Ce dernier exemple montre une carte de la Seine-et-Marne, où chaque disque représente le nombre de licenciés d'une fédération sportive (ici celle de basket-ball en 2011). 
 L'aire de chaque disque est proportionnelle au nombre de licenciés. 
