@@ -1,6 +1,6 @@
-import shapefile
-import fltk
 import math as m
+import fltk
+import shapefile
 
 H = 600
 L = 800
@@ -35,10 +35,7 @@ for i in range(101):
 
 
 
-
-
-
-
 fltk.mise_a_jour()
 fltk.attend_ev()
 fltk.ferme_fenetre()
+
