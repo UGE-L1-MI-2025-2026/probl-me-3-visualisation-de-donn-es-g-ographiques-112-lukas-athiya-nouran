@@ -7,9 +7,9 @@ L = 800
 
 sf = shapefile.Reader("departements-20180101.shp") #ouverture du fichier shapefile
 
-fltk.cree_fenetre(1920, 1080)
+fltk.cree_fenetre(L, H)
 
-
+centre = 0
 
 def conv_rad_degr(rad):
     return (rad*180)/m.pi
@@ -27,8 +27,8 @@ for i in range(101):
     for coord in sf.shape(i).points:
         longitude, latitude = conv_degr_rad(coord[0]) , conv_degr_rad(coord[1])
         
-        x = n * (longitude - centre)        # cest quoi n ?
-        y = n * fonct_mercator(latitude)
+        x = (L/2) * (longitude - centre)       
+        y = (H/2) * fonct_mercator(latitude)
         nouvelle_coordo.append((x,y))
     fltk.polygone(nouvelle_coordo, epaisseur = 2)
     print(i)
