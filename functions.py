@@ -16,6 +16,8 @@ def fonct_mercator(latitude):
 def france(L, H, sf):
     ech = 4
     echh = 3
+    sf = shapefile.Reader("departements-20140306-100m.shp") #ouverture du fichier shapefile
+    fltk.cree_fenetre(L, H)
     centre = 0
     total = []
     for i in range(101):
@@ -26,12 +28,44 @@ def france(L, H, sf):
             x = (L/2) * (longitude - centre)*echh + 800
             y = H - (H/2) * merc*ech + 1600
             nouvelle_coordo.append((x,y))
-        print(fltk.polygone(nouvelle_coordo, epaisseur = 1))
+        nouvelle_coordo = [x for i,x in enumerate(nouvelle_coordo) if i%10==0]
+        fltk.polygone(nouvelle_coordo, epaisseur = 1)
+        print(i)
+        total += nouvelle_coordo
+    fltk.mise_a_jour()
+    fltk.attend_ev()
+    fltk.ferme_fenetre()
 
-        total.append(nouvelle_coordo)
-    print("Fini")
-    return total
-
+def france2():
+    H = 1200
+    L = 1600
+    HH = 600
+    LL = 800
+    ech = 4
+    echh = 3
+    sf = shapefile.Reader("departements-20140306-100m.shp") #ouverture du fichier shapefile
+    fltk.cree_fenetre(L, H)
+    centre = 0
+    total = []
+    for i in range(101):
+        nouvelle_coordo = []
+        for coord in sf.shape(i).points:
+            longitude, latitude = conv_degr_rad(coord[0]) , conv_degr_rad(coord[1])
+            merc = fonct_mercator(latitude)
+            x = (L/2) * (longitude - centre)*echh + 800
+            y = H - (H/2) * merc*ech + 1600
+            nouvelle_coordo.append((x,y))
+        nouvelle = []
+        for i in range(len(nouvelle_coordo)-1):
+            nouvelle.append(nouvelle_coordo[i]+nouvelle_coordo[i+1])
+        nouvelle = [points for points in nouvelle if m.sqrt((points[2]-points[0])**2+(points[3]-points[1])**2) <= 10]  
+        fltk.polygone(nouvelle,epaisseur=1.5)
+        #for points in nouvelle:
+           # if m.sqrt((points[2]-points[0])**2+(points[3]-points[1])**2) <= 10:
+             #   fltk.ligne(points[0],points[1],points[2],points[3],epaisseur=1.5)
+    fltk.mise_a_jour()
+    fltk.attend_ev()
+    fltk.ferme_fenetre()  
 
 
 def dessiner(lezip):
@@ -42,9 +76,10 @@ def dessiner(lezip):
     ech = 4
     echh = 3
     sf = shapefile.Reader(lezip) #ouverture du fichier shapefile
+    print(sf.records())
     fltk.cree_fenetre(L, H)
     centre = 0
-    for i in range(101):
+    for i in range(0,813000,1000):
         nouvelle_coordo = []
         for coord in sf.shape(i).points:
             longitude, latitude = conv_degr_rad(coord[0]) , conv_degr_rad(coord[1])
@@ -53,10 +88,10 @@ def dessiner(lezip):
             y = H - (H/2) * merc*ech + 1600
             nouvelle_coordo.append((x,y))
         fltk.polygone(nouvelle_coordo, epaisseur = 1)
-        print(i)
-    fltk.mise_a_jour()
+        print(f"{i*100/826872} %")
+        fltk.mise_a_jour()
     fltk.attend_ev()
     fltk.ferme_fenetre()
-#filename = fd.askopenfilename()
-#dessiner(f"{filename}/land-polygons-complete-4326/land_polygons.shp")
+france2()
+
 
