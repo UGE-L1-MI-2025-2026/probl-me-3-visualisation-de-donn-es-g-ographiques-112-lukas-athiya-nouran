@@ -1,0 +1,43 @@
+import fltk
+
+H = 1080
+L = 1920
+
+fltk.cree_fenetre(L, H)
+
+x2 = L - 10
+y2 = H - 10
+x1 = x2 - 80
+y1 = y2 - 20
+fltk.rectangle(x1, y1, x2, y2, remplissage = "white", tag = "avancer")
+fltk.texte(x1 + 3, y1 - 3, chaine = "avancer", ancrage = "nw", taille = 15)
+
+x2 = 90
+y2 = H-10
+x1 = 10
+y1 = y2 -20
+fltk.rectangle(x1, y1, x2, y2, remplissage = "white", tag = "reculer")
+fltk.texte(x1 +3, y1 - 2, chaine = "reculer", ancrage = "nw", taille = 15)
+
+
+def reculer():
+    print('reculer')
+
+def avancer():
+    print('avancer')
+
+
+while True:
+
+    ev = fltk.donne_ev()
+    if fltk.est_objet_survole("reculer"):
+        if fltk.type_ev(ev) == "ClicGauche":
+            reculer()
+    elif fltk.est_objet_survole("avancer"):
+        if fltk.type_ev(ev) == "ClicGauche":
+            avancer()
+    elif fltk.type_ev(ev) == "Quitte":
+        fltk.ferme_fenetre()
+    fltk.mise_a_jour()
+    
+    
