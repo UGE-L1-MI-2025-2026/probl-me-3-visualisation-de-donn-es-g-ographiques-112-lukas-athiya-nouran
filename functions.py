@@ -16,8 +16,6 @@ def fonct_mercator(latitude):
 def france(L, H, sf):
     ech = 4
     echh = 3
-    sf = shapefile.Reader("departements-20140306-100m.shp") #ouverture du fichier shapefile
-    fltk.cree_fenetre(L, H)
     centre = 0
     total = []
     for i in range(101):
@@ -28,13 +26,10 @@ def france(L, H, sf):
             x = (L/2) * (longitude - centre)*echh + 800
             y = H - (H/2) * merc*ech + 1600
             nouvelle_coordo.append((x,y))
-        nouvelle_coordo = [x for i,x in enumerate(nouvelle_coordo) if i%10==0]
-        fltk.polygone(nouvelle_coordo, epaisseur = 1)
+        fltk.polygone(nouvelle_coordo, epaisseur = 1, tag = f"polygon_{i}")
         print(i)
-        total += nouvelle_coordo
-    fltk.mise_a_jour()
-    fltk.attend_ev()
-    fltk.ferme_fenetre()
+        total.append(nouvelle_coordo)
+    return total
 
 def france2():
     H = 1200
@@ -92,6 +87,6 @@ def dessiner(lezip):
         fltk.mise_a_jour()
     fltk.attend_ev()
     fltk.ferme_fenetre()
-france2()
+
 
 
