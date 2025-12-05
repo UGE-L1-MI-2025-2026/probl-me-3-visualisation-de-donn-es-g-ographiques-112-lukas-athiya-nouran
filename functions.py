@@ -18,15 +18,29 @@ def france(L, H, sf):
     echh = 3
     centre = 0
     total = []
-    for i in range(101):
-        nouvelle_coordo = []
-        for coord in sf.shape(i).points:
-            longitude, latitude = conv_degr_rad(coord[0]) , conv_degr_rad(coord[1])
-            merc = fonct_mercator(latitude)
-            x = (L/2) * (longitude - centre)*echh + 800
-            y = H - (H/2) * merc*ech + 1600
-            nouvelle_coordo.append((x,y))
-        fltk.polygone(nouvelle_coordo, epaisseur = 1, tag = f"polygon_{i}")
+    for i in range(len(sf.shapes())):
+        shape = sf.shape(i)
+        nbr_partie = len(shape.parts)
+
+        if nbr_partie == 0:
+            nouvelle_coordo = []
+            for coord in shape.points:
+                longitude, latitude = conv_degr_rad(coord[0]) , conv_degr_rad(coord[1])
+                merc = fonct_mercator(latitude)
+                x = (L/2) * (longitude - centre)*echh + 800
+                y = H - (H/2) * merc*ech + 1600
+                nouvelle_coordo.append((x,y))
+            fltk.polygone(nouvelle_coordo, epaisseur = 1, tag = f"polygon_{i}")
+        else:
+            for debut in range(nbr_partie):
+                for j in range(shape.points[debut], shape.points[max(0, min(debut+1, nbr_partie-1))]):
+                    nouvelle_coordo = []
+                    longitude, latitude = conv_degr_rad(coord[0]) , conv_degr_rad(coord[1]) #coordonnes en fonction de j
+                    merc = fonct_mercator(latitude)
+                    x = (L/2) * (longitude - centre)*echh + 800
+                    y = H - (H/2) * merc*ech + 1600
+                    nouvelle_coordo.append((x,y))
+                fltk.polygone(nouvelle_coordo, epaisseur = 1, tag = f"polygon_{i}")
         print(i)
         total.append(nouvelle_coordo)
     return total
@@ -90,3 +104,18 @@ def dessiner(lezip):
 
 
 
+
+
+liste = [0, 10, 20 ,30]
+len_l = len(liste)
+
+if len_l == 0:
+    # on fait
+    pass
+else:
+    for debut in range(len(liste)): # partie
+        #nouvelle coord
+        for j in range(liste[debut], liste[max(0, min(debut+1, len(liste)-1))]): # les points par rapport a la partie
+
+            print( f"poly{debut}", i)
+            # poly
