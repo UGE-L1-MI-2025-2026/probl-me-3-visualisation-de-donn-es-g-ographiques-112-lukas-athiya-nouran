@@ -22,7 +22,7 @@ def france(L, H, sf):
         shape = sf.shape(i)
         nbr_partie = len(shape.parts)
 
-        if nbr_partie == 0:
+        if nbr_partie == 1: # regarde si le polygon est en une seule partie
             nouvelle_coordo = []
             for coord in shape.points:
                 longitude, latitude = conv_degr_rad(coord[0]) , conv_degr_rad(coord[1])
@@ -31,18 +31,26 @@ def france(L, H, sf):
                 y = H - (H/2) * merc*ech + 1600
                 nouvelle_coordo.append((x,y))
             fltk.polygone(nouvelle_coordo, epaisseur = 1, tag = f"polygon_{i}")
+            total.append(nouvelle_coordo)
         else:
-            for debut in range(nbr_partie):
-                for j in range(shape.points[debut], shape.points[max(0, min(debut+1, nbr_partie-1))]):
-                    nouvelle_coordo = []
-                    longitude, latitude = conv_degr_rad(coord[0]) , conv_degr_rad(coord[1]) #coordonnes en fonction de j
+            # s'il est en plusieurs parties on 
+            # itère sur les parties
+            for debut in range(nbr_partie-1):
+                nouvelle_coordo = []
+                # on fait une boucle avc
+                # debut = le premier élément de parts (indexe du debut du polygon)
+                # fin = l'élément suivant  
+                for j in range(shape.parts[debut], shape.parts[max(0, min(debut+1, nbr_partie-1))]): 
+                    
+                    longitude, latitude = conv_degr_rad(shape.points[j][0]) , conv_degr_rad(shape.points[j][1]) 
                     merc = fonct_mercator(latitude)
                     x = (L/2) * (longitude - centre)*echh + 800
                     y = H - (H/2) * merc*ech + 1600
                     nouvelle_coordo.append((x,y))
-                fltk.polygone(nouvelle_coordo, epaisseur = 1, tag = f"polygon_{i}")
+                fltk.polygone(nouvelle_coordo, epaisseur = 1, tag = f"polygon_{i}")                
+                total.append(nouvelle_coordo)
+            
         print(i)
-        total.append(nouvelle_coordo)
     return total
 
 def france2():
@@ -106,16 +114,28 @@ def dessiner(lezip):
 
 
 
-liste = [0, 10, 20 ,30]
+fltk.cree_fenetre(1600, 1200)
+france(1600, 1200, shapefile.Reader("data/departement_shapefile/departements-20180101.shp") )
+fltk.mise_a_jour()
+fltk.attend_ev()
+
+"""
+liste = [0, 10, 20, 30]
 len_l = len(liste)
+total = []
 
 if len_l == 0:
     # on fait
     pass
 else:
-    for debut in range(len(liste)): # partie
-        #nouvelle coord
+    
+    for debut in range(len(liste)-1): # partie
+        coord = []
         for j in range(liste[debut], liste[max(0, min(debut+1, len(liste)-1))]): # les points par rapport a la partie
+            
+            print( f"poly{debut}", j)
+            coord.append(j)
+        #creer le polygone
+        total.append(coord)
 
-            print( f"poly{debut}", i)
-            # poly
+print(total)"""
