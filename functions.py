@@ -13,19 +13,12 @@ def conv_degr_rad(degre):
 def fonct_mercator(latitude):
     return  m.log(m.tan((latitude / 2) + (m.pi / 4)))
 
-def france():
-    H = 1200
-    L = 1600
-    HH = 600
-    LL = 800
+def france(L, H, sf):
     ech = 4
     echh = 3
-    sf = shapefile.Reader("departements-20140306-100m.shp") #ouverture du fichier shapefile
-    fltk.cree_fenetre(L, H)
     centre = 0
     total = []
     for i in range(len(sf.shapes())):
-<<<<<<< HEAD
         shape = sf.shape(i)
         nbr_partie = len(shape.parts)
 
@@ -48,25 +41,9 @@ def france():
                     y = H - (H/2) * merc*ech + 1600
                     nouvelle_coordo.append((x,y))
                 fltk.polygone(nouvelle_coordo, epaisseur = 1, tag = f"polygon_{i}")
-=======
-        nouvelle_coordo = []
-        for coord in sf.shape(i).points:
-            longitude, latitude = conv_degr_rad(coord[0]) , conv_degr_rad(coord[1])
-            merc = fonct_mercator(latitude)
-            x = (L/2) * (longitude - centre)*echh + 800
-            y = H - (H/2) * merc*ech + 1600
-            nouvelle_coordo.append((x,y))
-        for k in range(len(sf.shape(i).parts)): 
-            if not k+1:   
-                fltk.polygone(nouvelle_coordo[k:], epaisseur = 1)
-            else:
-                fltk.polygone(nouvelle_coordo[k:k+1], epaisseur = 1)
->>>>>>> 81aac663e9288e3637a29b6094181f5cfe5786d1
         print(i)
-        total += nouvelle_coordo
-    fltk.mise_a_jour()
-    fltk.attend_ev()
-    fltk.ferme_fenetre()
+        total.append(nouvelle_coordo)
+    return total
 
 def france2():
     H = 1200
@@ -87,16 +64,14 @@ def france2():
             x = (L/2) * (longitude - centre)*echh + 800
             y = H - (H/2) * merc*ech + 1600
             nouvelle_coordo.append((x,y))
-        print(nouvelle_coordo[1])
         nouvelle = []
         for i in range(len(nouvelle_coordo)-1):
             nouvelle.append(nouvelle_coordo[i]+nouvelle_coordo[i+1])
-        #nouvelle = [(points[0],points[1]) for points in nouvelle if m.sqrt((points[2]-points[0])**2+(points[3]-points[1])**2) <= 10]  
-        #fltk.polygone(nouvelle,epaisseur=1.5)
-        print(nouvelle[1])
-        for points in nouvelle:
-            if m.sqrt((points[2]-points[0])**2+(points[3]-points[1])**2) <= 10:
-                fltk.ligne(points[0],points[1],points[2],points[3],epaisseur=1.5)
+        nouvelle = [points for points in nouvelle if m.sqrt((points[2]-points[0])**2+(points[3]-points[1])**2) <= 10]  
+        fltk.polygone(nouvelle,epaisseur=1.5)
+        #for points in nouvelle:
+           # if m.sqrt((points[2]-points[0])**2+(points[3]-points[1])**2) <= 10:
+             #   fltk.ligne(points[0],points[1],points[2],points[3],epaisseur=1.5)
     fltk.mise_a_jour()
     fltk.attend_ev()
     fltk.ferme_fenetre()  
@@ -126,7 +101,7 @@ def dessiner(lezip):
         fltk.mise_a_jour()
     fltk.attend_ev()
     fltk.ferme_fenetre()
-france()
+
 
 
 
