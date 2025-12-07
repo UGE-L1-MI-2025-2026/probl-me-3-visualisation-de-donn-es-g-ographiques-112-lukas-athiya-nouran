@@ -1,6 +1,6 @@
 import fltk
 import math as m
-# polygone -> survole -> indice -> departement dans le shapefilee -> info du département a cette indice
+
 
 #MARGE = 2
 H = 1080
@@ -30,7 +30,8 @@ def affichage_info(x1:float, y1:float, departement: int, tag:str, sf, temps_json
 
 # TODO faire la meme pour les boutons avancer, reculer
 
-
+# ? prendre en parametre un dico avec comme clé qui correspond 
+# les coordonne de base et supplementaire pour calcule les coef
 def taille_info(longueur_txt:int, taille_txt: int = TAILLE_TXT_INFO):
     """
     Définie la taille du rectangle en fonction de la longueur du texte
@@ -99,10 +100,16 @@ def milieu(depart_points: list):
 
 
 def reculer():
+    """
+    Doit reafficher le dessin avec les temperatures de l'annee precedente si possible
+    """
     print('reculer')
 
 
 def avancer():
+    """
+    Doit reafficher le dessin avec les temperatures de l'annee suivante si possible
+    """
     print('avancer')
 
 def bouton_reculer(h, taille_txt):
