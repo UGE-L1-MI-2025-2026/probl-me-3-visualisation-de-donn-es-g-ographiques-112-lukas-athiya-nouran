@@ -3,15 +3,17 @@ import fltk
 import shapefile
 
 
-
 def conv_rad_degr(rad):
     return (rad*180)/m.pi
+
 
 def conv_degr_rad(degre):
     return (degre*m.pi)/180
 
+
 def fonct_mercator(latitude):
     return  m.log(m.tan((latitude / 2) + (m.pi / 4)))
+
 
 def france(L, H, sf):
     ech = 4
@@ -50,17 +52,26 @@ def france(L, H, sf):
 
 
 
-def dessiner(france_points: list, couleur):
+def dessiner(france_points: list, couleur: list):
     for i, points_dep in enumerate(france_points):
         if len(points_dep) == 1:
-            fltk.polygone(points_dep, epaisseur = 1, tag = f"polygon_{i}")
+            fltk.polygone(points_dep, remplissage = couleur[i], epaisseur = 1, tag = f"polygon_{i}")
         else:
             for partie in points_dep:
-                fltk.polygone(partie, remplissage= couleur, epaisseur = 1, tag = f"polygon_{i}")
+                fltk.polygone(partie, remplissage= couleur[i], epaisseur = 1, tag = f"polygon_{i}")
+
+def afficher_degres(L):
+    y = 0
+    for i in range(0, 36, 5): 
+        fltk.texte(L-40, y, str(i)+"°", taille=10)
+        y += 100
 
 
-
-
+def afficher_degrade(couleurs, L):
+    y = 0
+    for c in couleurs:
+        fltk.rectangle(L-20, y, L, y+20, couleur=c, remplissage=c)
+        y += 20
 
 
 

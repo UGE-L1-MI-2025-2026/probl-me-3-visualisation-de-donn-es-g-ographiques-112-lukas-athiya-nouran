@@ -1,10 +1,5 @@
-import shapefile
 import json
-import couleurs
 
-
-
-sf = shapefile.Reader("data\departement_shapefile\departements-20180101.shp") #ouverture du fichier shapefile
 
 """
 def annee_j():
@@ -12,7 +7,7 @@ def annee_j():
     temps_json = {}
     date_lst = []
     departement_lst = {}
-    with open("data/temperature/", "r") as file:
+    with open("data/temperature/temperature-quotidienne-departementale.json", "r") as file:
         donnee = json.load(file)
     for dep in donnee:
         code = dep["code_insee_departement"]
@@ -48,24 +43,24 @@ def temp_to_couleur(temp, couleurs):
 
 
 
-def couleur_departement(couleurs, temps_json, sf, i):
-    couleurs = []
+def couleur_departement(couleurs, temps_json, sf):
+    depa_couleurs = []
     for i in range(len(sf.shapes())):
         code_shp = sf.record(i)[0]
         code_sans_lettre = code_shp[:2]
         if code_sans_lettre in temps_json:
             temp = temps_json[code_sans_lettre]
-            couleurs.append(temp_to_couleur(temp, couleurs))
+            depa_couleurs.append(temp_to_couleur(temp, couleurs))
         else:
-            couleurs.append("#CCCCCC")
+            depa_couleurs.append("#CCCCCC")
 
-    return couleurs
+    return depa_couleurs
 
 
 
 def moyenne_departement_annee(annee):
     temp_dep = {}
-    with open("data/temperature/temperature-quotidienne-departementale.json", "r") as file:
+    with open("data/temperature/temperature-quotidienne-departementale.jsontemperature-quotidienne-departementale.json", "r") as file:
         donnee = json.load(file)
     for dep in donnee:
         if dep["date_obs"][:4] == annee:
@@ -86,20 +81,20 @@ def moyenne_departement_annee(annee):
     return moyennes
 
 
-moyenne_2018 = moyenne_departement_annee("2018")
+"""moyenne_2018 = moyenne_departement_annee("2018")
 moyenne_2019 = moyenne_departement_annee("2019")
 moyenne_2020 = moyenne_departement_annee("2020")
 moyenne_2021 = moyenne_departement_annee("2021")
 moyenne_2022 = moyenne_departement_annee("2022")
 moyenne_2023 = moyenne_departement_annee("2023")
 moyenne_2024 = moyenne_departement_annee("2024")
-moyenne_2025 = moyenne_departement_annee("2025")
+moyenne_2025 = moyenne_departement_annee("2025")"""
 
 
 # la meme carte que l'exemple, date : 01/07/2018
 def carte_exemple():
     temps_json = {}
-    with open("data/temperature/", "r") as file:
+    with open("data/temperature/temperature-quotidienne-departementale.json", "r") as file:
         donnee = json.load(file)
     for dep in donnee:
        if dep["date_obs"][:4] == "2018" and dep["date_obs"][5:7] == "07" and dep["date_obs"][8:10] == "01":
@@ -111,11 +106,11 @@ def carte_exemple():
     #print("ANNEE 2018 : ", temps_json)
     return temps_json
 
-carte_exemple()
+#carte_exemple()
 
 def annee_2018():
     temps_json = {}
-    with open("data/temperature/", "r") as file:
+    with open("data/temperature/temperature-quotidienne-departementale.json", "r") as file:
         donnee = json.load(file)
     for dep in donnee:
        if dep["date_obs"][:4] == "2018":
@@ -126,11 +121,11 @@ def annee_2018():
         
     #print("ANNEE 2018 : ", temps_json)
     return temps_json
-annee_2018()
+#annee_2018()
 
 def annee_2019():
     temps_json = {}
-    with open("data/temperature/", "r") as file:
+    with open("data/temperature/temperature-quotidienne-departementale.json", "r") as file:
         donnee = json.load(file)
     for dep in donnee:
        if dep["date_obs"][:4] == "2019":
@@ -141,11 +136,11 @@ def annee_2019():
         
     #print("ANNEE 2019 : ", temps_json)
     return temps_json
-annee_2019()
+#annee_2019()
 
 def annee_2020():
     temps_json = {}
-    with open("data/temperature/", "r") as file:
+    with open("data/temperature/temperature-quotidienne-departementale.json", "r") as file:
         donnee = json.load(file)
     for dep in donnee:
        if dep["date_obs"][:4] == "2020":
@@ -156,11 +151,11 @@ def annee_2020():
         
     #print("ANNEE 2020 : ", temps_json)
     return temps_json
-annee_2020()
+#annee_2020()
 
 def annee_2021():
     temps_json = {}
-    with open("data/temperature/", "r") as file:
+    with open("data/temperature/temperature-quotidienne-departementale.json", "r") as file:
         donnee = json.load(file)
     for dep in donnee:
        if dep["date_obs"][:4] == "2021":
@@ -171,11 +166,11 @@ def annee_2021():
         
     #print("ANNEE 2021 : ", temps_json)
     return temps_json
-annee_2021()
+#annee_2021()
 
 def annee_2022():
     temps_json = {}
-    with open("data/temperature/", "r") as file:
+    with open("data/temperature/temperature-quotidienne-departementale.json", "r") as file:
         donnee = json.load(file)
     for dep in donnee:
        if dep["date_obs"][:4] == "2022":
@@ -186,11 +181,11 @@ def annee_2022():
         
     #print("ANNEE 2022 : ", temps_json)
     return temps_json
-annee_2022()
+#annee_2022()
 
 def annee_2023():
     temps_json = {}
-    with open("data/temperature/", "r") as file:
+    with open("data/temperature/temperature-quotidienne-departementale.json", "r") as file:
         donnee = json.load(file)
     for dep in donnee:
        if dep["date_obs"][:4] == "2023":
@@ -201,11 +196,11 @@ def annee_2023():
         
     #print("ANNEE 2023 : ", temps_json)
     return temps_json
-annee_2023()
+#annee_2023()
 
 def annee_2024():
     temps_json = {}
-    with open("data/temperature/", "r") as file:
+    with open("data/temperature/temperature-quotidienne-departementale.json", "r") as file:
         donnee = json.load(file)
     for dep in donnee:
        if dep["date_obs"][:4] == "2024":
@@ -216,11 +211,11 @@ def annee_2024():
         
     #print("ANNEE 2024 : ", temps_json)
     return temps_json
-annee_2024()
+#annee_2024()
 
 def annee_2025():
     temps_json = {}
-    with open("data/temperature/", "r") as file:
+    with open("data/temperature/temperature-quotidienne-departementale.json", "r") as file:
         donnee = json.load(file)
     for dep in donnee:
        if dep["date_obs"][:4] == "2025":
@@ -231,5 +226,5 @@ def annee_2025():
         
     #print("ANNEE 2025 : ", temps_json)
     return temps_json
-annee_2025()
+#annee_2025()
 
