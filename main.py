@@ -8,7 +8,7 @@ import couleurs
 
 H = 1200
 L = 1600
-TAILLE_TXT_INFO = 20
+TAILLE_TXT_INFO = 10
 TAILLE_TXT_B = 15
 
 
@@ -16,7 +16,6 @@ TAILLE_TXT_B = 15
 def main():
     sf = shapefile.Reader("data/departement_shapefile/departements-20180101.shp")
     temps_json = temp.carte_exemple()
-
     fltk.cree_fenetre(L, H)
     depart_couleurs = temp.couleur_departement(couleurs.COULEUR, temps_json, sf)
     liste_points = affichage.france(L, H, sf)
@@ -27,22 +26,10 @@ def main():
     fltk.ligne(L-20, 0, L-20, 800)
     affichage.afficher_degrade(couleurs.COULEUR, L)
     affichage.afficher_degres(L)
+    interaction.bouton_avancer(L, H, TAILLE_TXT_B)
+    interaction.bouton_reculer(H, TAILLE_TXT_B)
 
 
-    x2 = L - 10
-    y2 = H - 10
-    x1 = x2 - 80
-    y1 = y2 - 20
-
-    fltk.rectangle(x1, y1, x2, y2, remplissage = "white", tag = "avancer")
-    fltk.texte(x1 + 3, y1 - 3, chaine = "avancer", ancrage = "nw", taille = TAILLE_TXT_B)
-
-    x2 = 90
-    y2 = H-10
-    x1 = 10
-    y1 = y2 -20
-    fltk.rectangle(x1, y1, x2, y2, remplissage = "white", tag = "reculer")
-    fltk.texte(x1 + 3, y1 - 2, chaine = "reculer", ancrage = "nw", taille = TAILLE_TXT_B)
 
     
 

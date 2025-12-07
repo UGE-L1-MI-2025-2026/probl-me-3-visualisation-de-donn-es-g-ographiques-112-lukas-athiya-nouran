@@ -6,7 +6,7 @@ import math as m
 H = 1080
 L = 1920
 
-TAILLE_TXT_INFO = 20
+TAILLE_TXT_INFO = 10
 TAILLE_TXT_B = 15
 
 
@@ -16,8 +16,12 @@ def affichage_info(x1:float, y1:float, departement: int, tag:str, sf, temps_json
     Permet d'afficher le nom et la température du département
     """
     nom = sf.record(departement)[1]
-    temperature = temps_json[sf.record(departement)[0]]
-    len_chaine = max(len(nom), len(str(temperature))+9) # taille chaine temp
+    try: 
+        temperature = str(temps_json[sf.record(departement)[0]])
+    except:
+        print("Pas de donnée sur le département:", nom)
+        temperature = "???"
+    len_chaine = max(len(nom), len(temperature)+9) # taille de la chaine temp
     
     rect_x2, rect_y2, marge_x, marge_y = taille_info(len_chaine)
     
@@ -101,7 +105,27 @@ def reculer():
 def avancer():
     print('avancer')
 
+def bouton_reculer(h, taille_txt):
+    """
+    Créer le bouton reculer en bas a gauche de la fenêtre
+    """
+    x2 = 90
+    y2 = h-10
+    x1 = 10
+    y1 = y2 -20
+    fltk.rectangle(x1, y1, x2, y2, remplissage = "white", tag = "reculer")
+    fltk.texte(x1 + 3, y1 - 2, chaine = "reculer", ancrage = "nw", taille = taille_txt)
 
+def bouton_avancer(l, h, taille_txt):
+    """
+    Créer le bouton avancer en bas a droite de la fenêtre
+    """
+    x2 = l - 10
+    y2 = h - 10
+    x1 = x2 - 80
+    y1 = y2 - 20
+    fltk.rectangle(x1, y1, x2, y2, remplissage = "white", tag = "avancer")
+    fltk.texte(x1 + 3, y1 - 3, chaine = "avancer", ancrage = "nw", taille = taille_txt)
 
 
 """x2 = L - 10

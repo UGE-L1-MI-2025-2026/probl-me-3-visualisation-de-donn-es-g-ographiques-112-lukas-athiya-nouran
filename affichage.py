@@ -47,7 +47,6 @@ def france(L, H, sf):
             #fltk.polygone(nouvelle_coordo, epaisseur = 1,  tag = f"polygon_{i}") # a retirer     
             partie.append(nouvelle_coordo)
         total.append(partie)
-        print(i)
     return total
 
 
@@ -140,7 +139,7 @@ def dessiner2(lezip):
 
 
 
-################## teste sur une liste ########################
+################## teste de la methode sur une liste ########################
 """
 points = [
     # Partie 1
