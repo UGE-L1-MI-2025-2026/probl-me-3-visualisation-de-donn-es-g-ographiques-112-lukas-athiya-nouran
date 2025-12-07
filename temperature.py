@@ -1,5 +1,8 @@
 import shapefile
 import json
+import couleurs
+
+
 
 sf = shapefile.Reader("data\departement_shapefile\departements-20180101.shp") #ouverture du fichier shapefile
 
@@ -9,7 +12,7 @@ def annee_j():
     temps_json = {}
     date_lst = []
     departement_lst = {}
-    with open("temperature-quotidienne-departementale.json", "r") as file:
+    with open("data/temperature/", "r") as file:
         donnee = json.load(file)
     for dep in donnee:
         code = dep["code_insee_departement"]
@@ -32,9 +35,37 @@ def annee_j():
 
 annee_j() """
 
+
+
+
+def temp_to_couleur(temp, couleurs):
+    if temp <= 0:
+        return couleurs[0]
+    elif temp >= 39:
+        return couleurs[-1]
+    indice = round(temp)
+    return couleurs[indice]
+
+
+
+def couleur_departement(couleurs, temps_json, sf, i):
+    couleurs = []
+    for i in range(len(sf.shapes())):
+        code_shp = sf.record(i)[0]
+        code_sans_lettre = code_shp[:2]
+        if code_sans_lettre in temps_json:
+            temp = temps_json[code_sans_lettre]
+            couleurs.append(temp_to_couleur(temp, couleurs))
+        else:
+            couleurs.append("#CCCCCC")
+
+    return couleurs
+
+
+
 def moyenne_departement_annee(annee):
     temp_dep = {}
-    with open("temperature-quotidienne-departementale.json", "r") as file:
+    with open("data/temperature/temperature-quotidienne-departementale.json", "r") as file:
         donnee = json.load(file)
     for dep in donnee:
         if dep["date_obs"][:4] == annee:
@@ -68,7 +99,7 @@ moyenne_2025 = moyenne_departement_annee("2025")
 # la meme carte que l'exemple, date : 01/07/2018
 def carte_exemple():
     temps_json = {}
-    with open("temperature-quotidienne-departementale.json", "r") as file:
+    with open("data/temperature/", "r") as file:
         donnee = json.load(file)
     for dep in donnee:
        if dep["date_obs"][:4] == "2018" and dep["date_obs"][5:7] == "07" and dep["date_obs"][8:10] == "01":
@@ -84,7 +115,7 @@ carte_exemple()
 
 def annee_2018():
     temps_json = {}
-    with open("temperature-quotidienne-departementale.json", "r") as file:
+    with open("data/temperature/", "r") as file:
         donnee = json.load(file)
     for dep in donnee:
        if dep["date_obs"][:4] == "2018":
@@ -99,7 +130,7 @@ annee_2018()
 
 def annee_2019():
     temps_json = {}
-    with open("temperature-quotidienne-departementale.json", "r") as file:
+    with open("data/temperature/", "r") as file:
         donnee = json.load(file)
     for dep in donnee:
        if dep["date_obs"][:4] == "2019":
@@ -114,7 +145,7 @@ annee_2019()
 
 def annee_2020():
     temps_json = {}
-    with open("temperature-quotidienne-departementale.json", "r") as file:
+    with open("data/temperature/", "r") as file:
         donnee = json.load(file)
     for dep in donnee:
        if dep["date_obs"][:4] == "2020":
@@ -129,7 +160,7 @@ annee_2020()
 
 def annee_2021():
     temps_json = {}
-    with open("temperature-quotidienne-departementale.json", "r") as file:
+    with open("data/temperature/", "r") as file:
         donnee = json.load(file)
     for dep in donnee:
        if dep["date_obs"][:4] == "2021":
@@ -144,7 +175,7 @@ annee_2021()
 
 def annee_2022():
     temps_json = {}
-    with open("temperature-quotidienne-departementale.json", "r") as file:
+    with open("data/temperature/", "r") as file:
         donnee = json.load(file)
     for dep in donnee:
        if dep["date_obs"][:4] == "2022":
@@ -159,7 +190,7 @@ annee_2022()
 
 def annee_2023():
     temps_json = {}
-    with open("temperature-quotidienne-departementale.json", "r") as file:
+    with open("data/temperature/", "r") as file:
         donnee = json.load(file)
     for dep in donnee:
        if dep["date_obs"][:4] == "2023":
@@ -174,7 +205,7 @@ annee_2023()
 
 def annee_2024():
     temps_json = {}
-    with open("temperature-quotidienne-departementale.json", "r") as file:
+    with open("data/temperature/", "r") as file:
         donnee = json.load(file)
     for dep in donnee:
        if dep["date_obs"][:4] == "2024":
@@ -189,7 +220,7 @@ annee_2024()
 
 def annee_2025():
     temps_json = {}
-    with open("temperature-quotidienne-departementale.json", "r") as file:
+    with open("data/temperature/", "r") as file:
         donnee = json.load(file)
     for dep in donnee:
        if dep["date_obs"][:4] == "2025":

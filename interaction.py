@@ -14,7 +14,6 @@ TAILLE_TXT_B = 15
 
 sf = shapefile.Reader("data/departement_shapefile/departements-20180101.shp")
 fltk.cree_fenetre(L, H)
-print(sf.shape(0).parts)
 liste_points = functions.france(L, H, sf)
 precedent = None
 
