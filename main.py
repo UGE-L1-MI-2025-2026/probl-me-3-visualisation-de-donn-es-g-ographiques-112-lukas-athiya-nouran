@@ -30,9 +30,6 @@ def main():
     interaction.bouton_reculer(H, TAILLE_TXT_B)
 
 
-
-    
-
     while True:
 
         ev = fltk.donne_ev()
