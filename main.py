@@ -4,18 +4,20 @@ import affichage
 import temperature as temp
 import interaction
 import couleurs
+import constante
 
 
-H = 1000
-L = H*1100/800
-TAILLE_TXT_INFO = 10
-TAILLE_TXT_B = 15
+H = constante.H
+L = constante.L
+
+TAILLE_TXT_INFO = constante.TAILLE_TXT_INFO
+TAILLE_TXT_B = constante.TAILLE_TXT_B
 
 
 
-def main():
-    sf = shapefile.Reader("data/departement_shapefile/departements-20180101.shp")
-    temps_json = temp.carte_exemple()
+
+def main(sf, temps_json):
+
     fltk.cree_fenetre(L, H)
     depart_couleurs = temp.couleur_departement(couleurs.COULEUR, temps_json, sf)
     liste_points = affichage.france(L, H, sf)
@@ -23,12 +25,12 @@ def main():
     departement = None
     precedent = None
     
-    fltk.ligne(L-20, 0, L-20, 800)
     affichage.titre(H,L)
-    affichage.afficher_degrade(couleurs.COULEUR, L,H)
-    affichage.afficher_degres(L,H)
-    interaction.bouton_avancer(L, H, TAILLE_TXT_B)
+    h_bouton = interaction.bouton_avancer(L, H, TAILLE_TXT_B)
     interaction.bouton_reculer(L, H, TAILLE_TXT_B)
+    affichage.afficher_degrade(couleurs.COULEUR, L, H - h_bouton)
+    affichage.afficher_degres(L, H - h_bouton)
+    
 
 
     while True:
@@ -68,4 +70,7 @@ def main():
 
     
 if  __name__ == "__main__":
-    main()
+    sf = shapefile.Reader("data/departement_shapefile/departements-20180101.shp")
+    temps_json = temp.carte_exemple("data/temperature/temperature-quotidienne-departementale.json")
+    
+    main(sf, temps_json)

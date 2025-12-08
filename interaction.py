@@ -28,9 +28,9 @@ def affichage_info(x1:float, y1:float, departement: int, tag:str, sf, temps_json
     fltk.rectangle(x1, y1, x1+rect_x2, y1+rect_y2, epaisseur = 1, remplissage = "white", tag = tag)
     texte(x1+marge_x, y1+marge_y, [temperature, nom], tag = tag)
 
-# TODO faire la meme pour les boutons avancer, reculer
 
-# ? prendre en parametre un dico avec comme clé qui correspond 
+
+# # TODO ? prendre en parametre un dico avec comme clé qui correspond 
 # les coordonne de base et supplementaire pour calcule les coef
 def taille_info(longueur_txt:int, taille_txt: int = TAILLE_TXT_INFO, nbr_ligne = 1):
     """
@@ -55,7 +55,7 @@ def taille_info(longueur_txt:int, taille_txt: int = TAILLE_TXT_INFO, nbr_ligne =
 
 def texte(x1, y1, texte: list, tag, taille_txt = TAILLE_TXT_INFO):
     """
-    Affiche le nom de la commune dans le rectangle
+    Affiche le nom de la commune dans le rectangle avec sa temperature maximal
     """
     #x1 += marge 
     #y1 += marge + 2
@@ -99,7 +99,7 @@ def milieu(depart_points: list):
     return (x, y)
 
 # TODO on peut appeler reculer avancer tt les 1 seconde pour faire une animation
-# TODO on peut afficher la date
+# TODO on peut afficher la date -> Nouran
 
 def reculer(temps_json, liste_points):
     """
@@ -123,8 +123,9 @@ def bouton_reculer(l, h, taille_txt, marge = 5):
     """
     chaine = "reculer"
     rect_x2, rect_y2, marge_x, marge_y = taille_info(len(chaine), taille_txt)
-    x1 = (20/1200)*l # coef entre coord/la longueur de l'image 20/1200 -> a mettre dans taille info
+    x1 = (20/1200)*l    # coef entre coord/la longueur de l'image 20/1200 -> a mettre dans taille info
     y1 = h - rect_y2 - marge 
+
     fltk.rectangle(x1, y1, x1+rect_x2, y1+rect_y2, remplissage = "white", tag = "reculer")
     fltk.texte(x1+marge_x, y1+marge_y,  chaine = chaine, ancrage = "nw", taille = taille_txt)
 
@@ -138,8 +139,14 @@ def bouton_avancer(l, h, taille_txt, marge = 5):
     rect_x2, rect_y2, marge_x, marge_y = taille_info(len(chaine), taille_txt)
     x1 = l - rect_x2 - marge 
     y1 = h - rect_y2 - marge
-    fltk.rectangle(x1, y1, x1+ rect_x2, y1+rect_y2, remplissage = "white", tag = "avancer")
+    x2 = x1 + rect_x2
+    y2 = y1 + rect_y2
+
+    fltk.rectangle(x1, y1, x2, y2, remplissage = "white", tag = "avancer")
     fltk.texte(x1 + marge_x, y1 + marge_y, chaine = chaine, ancrage = "nw", taille = taille_txt)
+    
+    return rect_x2 - marge
+
 
 def affichageinfoavancé(H,L,departement: int, tag:str, sf, temps_json):
     """

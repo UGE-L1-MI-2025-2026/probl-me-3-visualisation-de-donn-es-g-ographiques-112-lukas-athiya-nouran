@@ -1,8 +1,6 @@
 import json
 
 
-
-
 def temp_to_couleur(temp, couleurs):
     if temp <= 0:
         return couleurs[0]
@@ -13,8 +11,8 @@ def temp_to_couleur(temp, couleurs):
 
 
 def couleur_departement(couleurs, temps_json, sf):
-    
     depa_couleurs = []
+
     for i in range(len(sf.shapes())):
         code_shp = sf.record(i)[0]
         code_sans_lettre = code_shp[:2]
@@ -25,10 +23,14 @@ def couleur_departement(couleurs, temps_json, sf):
             depa_couleurs.append("#CCCCCC")
     return depa_couleurs
 
-def moyenne_departement_annee(annee):
+
+
+def moyenne_departement_annee(annee, path):
     temp_dep = {}
-    with open("data/temperature/temperature-quotidienne-departementale.json", "r") as file:
+
+    with open(path, "r") as file:
         donnee = json.load(file)
+
     for dep in donnee:
         if dep["date_obs"][:4] == annee:
             code = dep["code_insee_departement"]
@@ -48,20 +50,20 @@ def moyenne_departement_annee(annee):
     return moyennes
 
 
-moyenne_2018 = moyenne_departement_annee("2018")
-moyenne_2019 = moyenne_departement_annee("2019")
-moyenne_2020 = moyenne_departement_annee("2020")
-moyenne_2021 = moyenne_departement_annee("2021")
-moyenne_2022 = moyenne_departement_annee("2022")
-moyenne_2023 = moyenne_departement_annee("2023")
-moyenne_2024 = moyenne_departement_annee("2024")
-moyenne_2025 = moyenne_departement_annee("2025")
+def moyenne_dep_annees():
+    m_t_2018_2025 = []
+    path = "data/temperature/temperature-quotidienne-departementale.json"
+
+    for i in range (18, 26):
+        m_t_2018_2025.append(moyenne_departement_annee(f"20{i}", path))
+        
+    return m_t_2018_2025
 
 
 # la meme carte que l'exemple, date : 01/07/2018
-def carte_exemple():
+def carte_exemple(path: str):
     temps_json = {}
-    with open("data/temperature/temperature-quotidienne-departementale.json", "r") as file:
+    with open(path , "r") as file:
         donnee = json.load(file)
     for dep in donnee:
        if dep["date_obs"][:4] == "2018" and dep["date_obs"][5:7] == "07" and dep["date_obs"][8:10] == "01":
@@ -76,9 +78,9 @@ def carte_exemple():
 
 #carte_exemple()
 
-def temp_annee(annee):
+def temp_annee(annee, path):
     temps_json = {}
-    with open("data/temperature/temperature-quotidienne-departementale.json", "r") as file:
+    with open(path, "r") as file:
         donnee = json.load(file)
     for dep in donnee:
        if dep["date_obs"][:4] == annee:
@@ -89,11 +91,12 @@ def temp_annee(annee):
         
     return temps_json
 
-annee2018 = temp_annee("2018")
-annee2019 = temp_annee("2019")
-annee2020 = temp_annee("2020")
-annee2021 = temp_annee("2021")
-annee2022 = temp_annee("2022")
-annee2023 = temp_annee("2023")
-annee2024 = temp_annee("2024")
-annee2025 = temp_annee("2025")
+def temps_annees():
+
+    t_2018_2025 = []
+    path = "data/temperature/temperature-quotidienne-departementale.json"
+
+    for i in range (18, 26):
+        t_2018_2025.append(temp_annee(f"20{i}", path))
+    
+    return t_2018_2025

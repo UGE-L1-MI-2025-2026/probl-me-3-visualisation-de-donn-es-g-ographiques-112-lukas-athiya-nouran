@@ -60,18 +60,18 @@ def dessiner(france_points: list, couleur: list):
             for partie in points_dep:
                 fltk.polygone(partie, remplissage= couleur[i], epaisseur = 1, tag = f"polygon_{i}")
 
-def afficher_degres(L,H):
+def afficher_degres(l, h):
     y = 0
     for i in range(0, 40, 5): 
-        fltk.texte(L-40, y, str(i)+"°", taille=10)
-        y += H/8
+        fltk.texte(l-40, y, str(i)+"°", taille=10)
+        y += h/8
 
 
-def afficher_degrade(couleurs, L,H):
+def afficher_degrade(couleurs, l,h):
     y = 0
     for c in couleurs:
-        fltk.rectangle(L-20, y, L, y+H/40, couleur=c, remplissage=c)
-        y += H/40
+        fltk.rectangle(l-20, y, l, y+h/40, couleur=c, remplissage=c)
+        y += h/40
 
 
 def france2():
