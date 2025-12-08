@@ -16,6 +16,8 @@ def fonct_mercator(latitude):
 
 
 def france(L, H, sf):
+    L *= 1.5
+    H *= 1.5
     ech = 4
     echh = 3
     centre = 0
@@ -41,8 +43,8 @@ def france(L, H, sf):
             for j in range(debut, fin):
                 longitude, latitude = conv_degr_rad(shape.points[j][0]) , conv_degr_rad(shape.points[j][1]) 
                 merc = fonct_mercator(latitude)
-                x = (L/2) * (longitude - centre)*echh + 800
-                y = H - (H/2) * merc*ech + 1600
+                x = (L/2) * (longitude - centre)*echh + (400/1600)*L
+                y = H - (H/2) * merc*ech + (1400/1200)*H
                 nouvelle_coordo.append((x,y))
             #fltk.polygone(nouvelle_coordo, epaisseur = 1,  tag = f"polygon_{i}") # a retirer     
             partie.append(nouvelle_coordo)
@@ -59,25 +61,18 @@ def dessiner(france_points: list, couleur: list):
             for partie in points_dep:
                 fltk.polygone(partie, remplissage= couleur[i], epaisseur = 1, tag = f"polygon_{i}")
 
-def afficher_degres(L):
+def afficher_degres(L,H):
     y = 0
-    for i in range(0, 36, 5): 
+    for i in range(0, 40, 5): 
         fltk.texte(L-40, y, str(i)+"°", taille=10)
-        y += 100
+        y += H/8
 
 
-def afficher_degrade(couleurs, L):
+def afficher_degrade(couleurs, L,H):
     y = 0
     for c in couleurs:
-        fltk.rectangle(L-20, y, L, y+20, couleur=c, remplissage=c)
-        y += 20
-
-
-
-
-
-
-
+        fltk.rectangle(L-20, y, L, y+H/40, couleur=c, remplissage=c)
+        y += H/40
 
 
 def france2():
@@ -137,6 +132,8 @@ def dessiner2(lezip):
     fltk.attend_ev()
     fltk.ferme_fenetre()
 
+def titre(H,L):
+    fltk.texte(L/2,20, "Carte des variations de température en France", taille=20,ancrage='center')
 
 
 ################## teste de la methode sur une liste ########################

@@ -6,8 +6,8 @@ import interaction
 import couleurs
 
 
-H = 1200
-L = 1600
+H = 1000
+L = H*1100/800
 TAILLE_TXT_INFO = 10
 TAILLE_TXT_B = 15
 
@@ -24,8 +24,9 @@ def main():
     precedent = None
     
     fltk.ligne(L-20, 0, L-20, 800)
-    affichage.afficher_degrade(couleurs.COULEUR, L)
-    affichage.afficher_degres(L)
+    affichage.titre(H,L)
+    affichage.afficher_degrade(couleurs.COULEUR, L,H)
+    affichage.afficher_degres(L,H)
     interaction.bouton_avancer(L, H, TAILLE_TXT_B)
     interaction.bouton_reculer(H, TAILLE_TXT_B)
 
@@ -56,6 +57,7 @@ def main():
                 if departement is not None:
                     x, y = interaction.milieu(liste_points[departement])
                     interaction.affichage_info(x, y, departement, f"t_{departement}", sf, temps_json)
+                    interaction.affichageinfoavancé(H,L,departement, f"t_{departement}", sf, temps_json)
                 
             if precedent is not None and departement != precedent:
                 fltk.efface(f"t_{precedent}")
