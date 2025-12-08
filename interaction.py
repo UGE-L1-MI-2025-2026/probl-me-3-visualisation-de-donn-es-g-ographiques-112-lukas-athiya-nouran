@@ -1,13 +1,13 @@
 import fltk
 import math as m
+import constante
 
 
-#MARGE = 2
-H = 1080
-L = 1920
+H = constante.H
+L = constante.L
 
-TAILLE_TXT_INFO = 10
-TAILLE_TXT_B = 15
+TAILLE_TXT_INFO = constante.TAILLE_TXT_INFO
+TAILLE_TXT_B = constante.TAILLE_TXT_B
 
 
 
@@ -23,7 +23,7 @@ def affichage_info(x1:float, y1:float, departement: int, tag:str, sf, temps_json
         temperature = "???"
     len_chaine = max(len(nom), len(temperature)+9) # taille de la chaine temp
     
-    rect_x2, rect_y2, marge_x, marge_y = taille_info(len_chaine)
+    rect_x2, rect_y2, marge_x, marge_y = taille_info(len_chaine, nbr_ligne = 2)
     
     fltk.rectangle(x1, y1, x1+rect_x2, y1+rect_y2, epaisseur = 1, remplissage = "white", tag = tag)
     texte(x1+marge_x, y1+marge_y, [temperature, nom], tag = tag)
@@ -32,22 +32,22 @@ def affichage_info(x1:float, y1:float, departement: int, tag:str, sf, temps_json
 
 # ? prendre en parametre un dico avec comme clé qui correspond 
 # les coordonne de base et supplementaire pour calcule les coef
-def taille_info(longueur_txt:int, taille_txt: int = TAILLE_TXT_INFO):
+def taille_info(longueur_txt:int, taille_txt: int = TAILLE_TXT_INFO, nbr_ligne = 1):
     """
-    Définie la taille du rectangle en fonction de la longueur du texte
+    Définie la taille du rectangle et la marge en fonction 
+    de la longueur du texte et de sa taille
 
-    texte = [temp: int, nom du département: str]
     """
     #coord supplementaire / taille_texte
-    coef_l_x = 0.75 * taille_txt  # une lettre en majuscule
-    coef_txt_y = 1.875
-    coef_marge_x = 0.25
-    coef_marge_y = 0.5
+    coef_l_x = 0.75 * taille_txt  # longueur rect pr une lettre en majuscule
+    coef_txt_y = 1.875 # hauteur rectangle
+    coef_marge_x = 0.25 # 2/8
+    coef_marge_y = 0.5  # 4/8
 
-    rect_x2 = coef_l_x * longueur_txt
-    rect_y2 = coef_txt_y * taille_txt * 2
-    marge_x = coef_marge_x * taille_txt
-    marge_y = coef_marge_y * taille_txt
+    rect_x2 = coef_l_x * longueur_txt # longueur du rectangle
+    rect_y2 = coef_txt_y * taille_txt * nbr_ligne #la hauteur du rectangle
+    marge_x = coef_marge_x * taille_txt # marge du texte x
+    marge_y = coef_marge_y * taille_txt # marge du texte y
 
     
     return rect_x2, rect_y2, marge_x, marge_y
@@ -98,11 +98,14 @@ def milieu(depart_points: list):
 
     return (x, y)
 
+# TODO on peut appeler reculer avancer tt les 1 seconde pour faire une animation
+# TODO on peut afficher la date
 
-def reculer():
+def reculer(temps_json, liste_points):
     """
     Doit reafficher le dessin avec les temperatures de l'annee precedente si possible
     """
+    
     print('reculer')
 
 
@@ -112,27 +115,31 @@ def avancer():
     """
     print('avancer')
 
-def bouton_reculer(h, taille_txt):
+
+
+def bouton_reculer(l, h, taille_txt, marge = 5):
     """
     Créer le bouton reculer en bas a gauche de la fenêtre
     """
-    x2 = 90
-    y2 = h-10
-    x1 = 10
-    y1 = y2 -20
-    fltk.rectangle(x1, y1, x2, y2, remplissage = "white", tag = "reculer")
-    fltk.texte(x1 + 3, y1 - 2, chaine = "reculer", ancrage = "nw", taille = taille_txt)
+    chaine = "reculer"
+    rect_x2, rect_y2, marge_x, marge_y = taille_info(len(chaine), taille_txt)
+    x1 = (20/1200)*l # coef entre coord/la longueur de l'image 20/1200 -> a mettre dans taille info
+    y1 = h - rect_y2 - marge 
+    fltk.rectangle(x1, y1, x1+rect_x2, y1+rect_y2, remplissage = "white", tag = "reculer")
+    fltk.texte(x1+marge_x, y1+marge_y,  chaine = chaine, ancrage = "nw", taille = taille_txt)
 
-def bouton_avancer(l, h, taille_txt):
+
+
+def bouton_avancer(l, h, taille_txt, marge = 5):
     """
     Créer le bouton avancer en bas a droite de la fenêtre
     """
-    x2 = l - 10
-    y2 = h - 10
-    x1 = x2 - 80
-    y1 = y2 - 20
-    fltk.rectangle(x1, y1, x2, y2, remplissage = "white", tag = "avancer")
-    fltk.texte(x1 + 3, y1 - 3, chaine = "avancer", ancrage = "nw", taille = taille_txt)
+    chaine = "avancer"
+    rect_x2, rect_y2, marge_x, marge_y = taille_info(len(chaine), taille_txt)
+    x1 = l - rect_x2 - marge 
+    y1 = h - rect_y2 - marge
+    fltk.rectangle(x1, y1, x1+ rect_x2, y1+rect_y2, remplissage = "white", tag = "avancer")
+    fltk.texte(x1 + marge_x, y1 + marge_y, chaine = chaine, ancrage = "nw", taille = taille_txt)
 
 
 """x2 = L - 10

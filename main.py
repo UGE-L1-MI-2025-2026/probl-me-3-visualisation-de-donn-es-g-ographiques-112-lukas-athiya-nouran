@@ -6,8 +6,8 @@ import interaction
 import couleurs
 
 
-H = 1200
-L = 1600
+H = 900
+L = 1200
 TAILLE_TXT_INFO = 10
 TAILLE_TXT_B = 15
 
@@ -27,7 +27,7 @@ def main():
     affichage.afficher_degrade(couleurs.COULEUR, L)
     affichage.afficher_degres(L)
     interaction.bouton_avancer(L, H, TAILLE_TXT_B)
-    interaction.bouton_reculer(H, TAILLE_TXT_B)
+    interaction.bouton_reculer(L, H, TAILLE_TXT_B)
 
 
 

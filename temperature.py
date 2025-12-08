@@ -1,36 +1,6 @@
 import json
 
 
-"""
-def annee_j():
-    code_json = []
-    temps_json = {}
-    date_lst = []
-    departement_lst = {}
-    with open("data/temperature/temperature-quotidienne-departementale.json", "r") as file:
-        donnee = json.load(file)
-    for dep in donnee:
-        code = dep["code_insee_departement"]
-        temp = dep["tmax"]
-
-        temps_json[code] = temp
-        code_json.append(code)
-
-        date = dep["date_obs"]#[:4]
-        date_lst.append(date)
-
-        departement_lst[date] = dep["departement"]
-
-    print(departement_lst)
-
-    print("{departement : temperature} -> ", temps_json)
-    code_json = list(set(code_json))
-    code_json.sort()
-    print("code_insee_json : ", code_json)
-
-annee_j() """
-
-
 
 
 def temp_to_couleur(temp, couleurs):

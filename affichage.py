@@ -44,7 +44,6 @@ def france(L, H, sf):
                 x = (L/2) * (longitude - centre)*echh + 800
                 y = H - (H/2) * merc*ech + 1600
                 nouvelle_coordo.append((x,y))
-            #fltk.polygone(nouvelle_coordo, epaisseur = 1,  tag = f"polygon_{i}") # a retirer     
             partie.append(nouvelle_coordo)
         total.append(partie)
     return total
