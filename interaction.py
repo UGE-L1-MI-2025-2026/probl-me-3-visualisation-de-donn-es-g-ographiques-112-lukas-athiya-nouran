@@ -17,16 +17,17 @@ def affichage_info(x1:float, y1:float, departement: int, tag:str, sf, temps_json
     """
     nom = sf.record(departement)[1]
     try: 
-        temperature = str(temps_json[sf.record(departement)[0]])
+        t_min, t_max = str(temps_json[sf.record(departement)[0]])
     except:
         print("Pas de donnée sur le département:", nom)
-        temperature = "???"
-    len_chaine = max(len(nom), len(temperature)+9) # taille de la chaine temp
+        t_min, t_max = "???"
     
-    rect_x2, rect_y2, marge_x, marge_y = taille_info(len_chaine, nbr_ligne = 2)
+    len_chaine = max(len(nom), len(t_max)+9, len(t_min)+9) # 9 = taille de la chaine temp
+    
+    rect_x2, rect_y2, marge_x, marge_y = taille_info(len_chaine, nbr_ligne = 3)
     
     fltk.rectangle(x1, y1, x1+rect_x2, y1+rect_y2, epaisseur = 1, remplissage = "white", tag = tag)
-    texte(x1+marge_x, y1+marge_y, [temperature, nom], tag = tag)
+    texte(x1+marge_x, y1+marge_y, [t_max, t_min, nom], tag = tag)
 
 
 
@@ -59,8 +60,9 @@ def texte(x1, y1, texte: list, tag, taille_txt = TAILLE_TXT_INFO):
     """
     #x1 += marge 
     #y1 += marge + 2
-    temperature, nom = texte[0], texte[1]
-    chaine = nom + "\n" + f"t_max: {temperature}°C"
+    t_max ,t_min, nom = texte
+    chaine = nom + "\n" + f"t_max: {t_max}°C\nt_min: {t_min}°C"
+    
 
     fltk.texte(x1, y1, chaine = chaine, ancrage = "nw", taille = taille_txt, tag = tag)
 

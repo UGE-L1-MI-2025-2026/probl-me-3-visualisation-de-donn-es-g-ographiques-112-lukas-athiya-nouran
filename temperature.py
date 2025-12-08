@@ -18,7 +18,7 @@ def couleur_departement(couleurs, temps_json, sf):
         code_sans_lettre = code_shp[:2]
         if code_sans_lettre in temps_json:
             temp = temps_json[code_sans_lettre]
-            depa_couleurs.append(temp_to_couleur(temp, couleurs))
+            depa_couleurs.append(temp_to_couleur(temp, couleurs)) # a changer ya tmin et tmax mtn
         else:
             depa_couleurs.append("#CCCCCC")
     return depa_couleurs
@@ -56,7 +56,7 @@ def moyenne_dep_annees():
 
     for i in range (18, 26):
         m_t_2018_2025.append(moyenne_departement_annee(f"20{i}", path))
-        
+
     return m_t_2018_2025
 
 
@@ -68,7 +68,8 @@ def carte_exemple(path: str):
     for dep in donnee:
        if dep["date_obs"][:4] == "2018" and dep["date_obs"][5:7] == "07" and dep["date_obs"][8:10] == "01":
            code = dep["code_insee_departement"]
-           temp = dep["tmax"]
+           temp = dep["tmax"], dep["tmin"]
+           
 
            temps_json[code] = temp
         
