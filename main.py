@@ -45,10 +45,18 @@ def main(f_depar, f_temp):
 
         if fltk.type_ev(ev) == "ClicGauche":
                 if fltk.est_objet_survole("reculer"):
-                    l_polygon, t_json, annee = interaction.reculer(f_temp, sf, l_polygon, annee, tmax)
+                    result = interaction.reculer(f_temp, sf, annee, tmax)
+                    if len(result)==3:
+                        l_polygon, t_json, annee = result
+                    else:
+                        annee = result
                     
                 elif fltk.est_objet_survole("avancer"):
-                    l_polygon, t_json, annee = interaction.avancer(f_temp, sf, l_polygon ,annee, tmax)
+                    result = interaction.avancer(f_temp, sf, annee, tmax)
+                    if len(result)==3:
+                        l_polygon, t_json, annee = result
+                    else:
+                        annee = result
 
                 elif fltk.est_objet_survole("temp"):
                     tmax = interaction.bouton_temp(L, H, TAILLE_TXT_B, tmax=tmax)

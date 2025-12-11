@@ -109,7 +109,7 @@ def milieu(depart_points: list):
 
 
 
-def reculer(f_temp, sf, liste_points, annee, tmax, borne = 2018):
+def reculer(f_temp, sf, annee, tmax, borne = 2018):
     """
     Doit reafficher le dessin avec les temperatures de l'annee precedente si possible
     """
@@ -132,14 +132,14 @@ def reculer(f_temp, sf, liste_points, annee, tmax, borne = 2018):
 
 
 
-def avancer(f_temp, sf, liste_points, annee, tmax, borne = 2025):
+def avancer(f_temp, sf, annee, tmax, borne = 2025):
     """
     Doit reafficher le dessin avec les temperatures de l'annee suivante si possible
     """
     n_annee = int(annee) + 1
     if n_annee > borne:
         print("Vous ne pouvez pas avancer d'avantage dans le temps")
-        return liste_points, temps_json, annee
+        return annee
     
     else:
         n_annee = str(n_annee)
@@ -172,10 +172,14 @@ def bouton_temp(l, h, taille_txt, marge = 5, tmax: int = 0):
     """
     Créer le bouton pour changer entre les températures minimales et maximales
     """
-    chaine = "Afficher\ntemp " 
-    rect_x2, rect_y2, marge_x, marge_y = taille_info(13, taille_txt, 2)
+    chaine = "Afficher température " 
+    chaine2 = "\ndans la bulle d'info"
+    maxi = "maximale"
+    mini = "minimale"
+    lon = max(len(chaine)+len(mini), len(chaine2)-2)
+    rect_x2, rect_y2, marge_x, marge_y = taille_info(lon, taille_txt, 2)
     x1 = (20/1200)*l  
-    y1 = h - rect_y2 - marge - 75
+    y1 = h - rect_y2 - marge - 40
     fltk.rectangle(x1, y1, x1 + rect_x2, y1 + rect_y2 , 
                    remplissage = "white", tag = "temp")
     
@@ -184,7 +188,7 @@ def bouton_temp(l, h, taille_txt, marge = 5, tmax: int = 0):
             fltk.efface("t_1")
         except:
             pass
-        chaine += "maximale"
+        chaine += maxi + chaine2
         fltk.texte(x1+marge_x, y1 + marge_y,  chaine = chaine,
                    ancrage = "nw", taille = taille_txt, tag = "t_0")
         return 1
@@ -193,7 +197,7 @@ def bouton_temp(l, h, taille_txt, marge = 5, tmax: int = 0):
             fltk.efface("t_0")
         except:
             pass
-        chaine += "minimale"
+        chaine += mini + chaine2
         fltk.texte(x1 + marge_x, y1 + marge_y , chaine = chaine, 
                    ancrage = "nw", taille = taille_txt, tag = "t_1")
         
