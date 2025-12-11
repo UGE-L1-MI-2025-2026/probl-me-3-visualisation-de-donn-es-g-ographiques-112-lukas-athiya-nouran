@@ -231,7 +231,7 @@ def change_temp(l, h, taille_txt, marge = 5, tmax: int = 0):
         except:
             pass
         chaine += maxi
-        fltk.texte(x1+marge_x, y1 + marge_y,  chaine = chaine,
+        fltk.texte(x1+marge_x, y1 + marge_y - marge,  chaine = chaine,
                    ancrage = "nw", taille = taille_txt, tag = "t_0")
         return 1
     else:
@@ -240,7 +240,7 @@ def change_temp(l, h, taille_txt, marge = 5, tmax: int = 0):
         except:
             pass
         chaine += mini
-        fltk.texte(x1 + marge_x, y1 + marge_y , chaine = chaine, 
+        fltk.texte(x1 + marge_x, y1 + marge_y - marge, chaine = chaine, 
                    ancrage = "nw", taille = taille_txt, tag = "t_1")
         
         return 0
