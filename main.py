@@ -34,14 +34,14 @@ def main(f_depar, f_temp):
     depart_couleurs = temp.couleur_departement(t_json, sf, tmax)
     l_polygon = affichage.france(L, H, sf)
     affichage.dessiner(l_polygon, depart_couleurs)
-    affichage.titre(H,L, annee)
+    affichage.titre(H,L)
 
     h_bouton = interaction.bouton_avancer(L, H, TAILLE_TXT_B)
     interaction.bouton_reculer(L, H, TAILLE_TXT_B)
     interaction.bouton_animation(L, H, TAILLE_TXT_B, animat)
     interaction.change_temp(L, H, TAILLE_TXT_B, tmax = tmax)
-    affichage.afficher_degrade(couleurs.COULEUR, L, H - h_bouton)
-    affichage.afficher_degres(L, H - h_bouton)
+    affichage.afficher_degrade(couleurs.COULEUR, L, H - h_bouton-10)
+    affichage.afficher_degres(L, H - h_bouton-10)
     affichage.datedynamique(H,L,annee) 
 
     while True:

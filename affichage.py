@@ -20,6 +20,7 @@ def france(L, H, sf):
     fonction permettant de dessiner l'objet sf (dessine la france)
     
     '''
+    original_h = H
     L *= 1.5
     H *= 1.5
     ech = 4
@@ -57,8 +58,8 @@ def france(L, H, sf):
                 ecart = dom_tom.index(nom_shp)
                 minx = min([x for x, _ in nouvelle_coordo])
                 miny = min([y for _, y in nouvelle_coordo])
-                echelle = 0.2 if nom_shp == 'Guyane' else 1
-                nouvelle_coordo = [((x-minx)*echelle+10, (y-miny)*echelle+250+50*ecart) for x, y in nouvelle_coordo]
+                echelle = 0.2 if nom_shp == 'Guyane' else 1.3
+                nouvelle_coordo = [((x-minx)*echelle+10, (y-miny)*echelle+(original_h//2-50)+(original_h//12*ecart)) for x, y in nouvelle_coordo]
                 
                 minx = min([x for x, _ in nouvelle_coordo])
                 maxy = max([y for _, y in nouvelle_coordo])
@@ -94,7 +95,7 @@ def afficher_degres(l, h):
 def afficher_degrade(couleurs, l,h):
     y = 0
     for c in couleurs:
-        fltk.rectangle(l-20, y, l, y+h/50, couleur=c, remplissage=c)
+        fltk.rectangle(l-20, y-10, l, y+h/50, couleur=c, remplissage=c)
         y += h/50
 
 
