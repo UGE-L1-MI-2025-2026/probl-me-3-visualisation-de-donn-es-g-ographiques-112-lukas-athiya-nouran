@@ -18,9 +18,10 @@ def affichage_info(x1:float, y1:float, departement: int, tag:str, sf, temps_json
     """
     Permet d'afficher le nom et la température du département 
     """
-    nom = sf.record(departement)[1]
+    info = sf.record(departement)
+    nom = info[1]
     try: 
-        temp = str(temps_json[sf.record(departement)[0]][tmax])
+        temp = str(temps_json[info[0][:2]][tmax])
     except:
         print("Pas de donnée sur le département:", nom)
         temp  = "???"
