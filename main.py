@@ -6,6 +6,7 @@ import interaction
 import couleurs
 import constante
 import time
+import map2
 
 H = constante.H
 L = constante.L
@@ -33,8 +34,7 @@ def main(f_depar, f_temp):
     depart_couleurs = temp.couleur_departement(t_json, sf, tmax)
     l_polygon = affichage.france(L, H, sf)
     affichage.dessiner(l_polygon, depart_couleurs)
-    affichage.titre(H,L)
-    # ajouter la date
+    affichage.titre(H,L, annee)
 
     h_bouton = interaction.bouton_avancer(L, H, TAILLE_TXT_B)
     interaction.bouton_reculer(L, H, TAILLE_TXT_B)
@@ -42,7 +42,7 @@ def main(f_depar, f_temp):
     interaction.change_temp(L, H, TAILLE_TXT_B, tmax = tmax)
     affichage.afficher_degrade(couleurs.COULEUR, L, H - h_bouton)
     affichage.afficher_degres(L, H - h_bouton)
-    
+    affichage.datedynamique(H,L,annee) 
 
     while True:
 
@@ -56,14 +56,14 @@ def main(f_depar, f_temp):
                         l_polygon, t_json, annee = result
                     else:
                         annee = result
-                    
+                    affichage.datedynamique(H,L,annee)
                 elif fltk.est_objet_survole("avancer"):
                     result = interaction.avancer(f_temp, sf, annee, tmax, borne[1])
                     if len(result)==3:
                         l_polygon, t_json, annee = result
                     else:
                         annee = result
-
+                    affichage.datedynamique(H,L,annee)
                 elif fltk.est_objet_survole("temp"):
                     tmax = interaction.change_temp(L, H, TAILLE_TXT_B, tmax=tmax)
                     depart_couleurs = temp.couleur_departement(t_json, sf, tmax)
@@ -99,6 +99,7 @@ def main(f_depar, f_temp):
             result = interaction.avancer(f_temp, sf, annee, tmax)
             l_polygon, t_json, annee = result
             annee = borne[0] + (int(annee) - borne[0]) % (borne[1] - borne[0])
+            affichage.datedynamique(H,L,annee)
             # ajouter la date
             fltk.mise_a_jour()
             time.sleep(1)
@@ -112,5 +113,30 @@ if  __name__ == "__main__":
     fichier_depart = "data/departement_shapefile/departements-20180101.shp"
     fichier_temp = "data/temperature/temperature-quotidienne-departementale.json"
 
+    fltk.cree_fenetre(600,600)
+    fltk.texte(300,50, "Menu", taille=100, ancrage='center')
+    fltk.texte(150,350, "France", taille=20, ancrage='center')
+    fltk.texte(450,350, "Bonus", taille=20, ancrage='center')
+    fltk.rectangle(100,300,200,400)
+    fltk.rectangle(400,300,500,400)
+    while True:
+        ev = fltk.donne_ev()
+        tev = fltk.type_ev(ev)
+    
+        if tev == "ClicGauche":
+            if 100<fltk.abscisse(ev)<200 and 300 < fltk.ordonnee(ev) < 400:
+                fltk.ferme_fenetre()
+                main(fichier_depart, fichier_temp)
+            elif 400<fltk.abscisse(ev)<500 and 300 < fltk.ordonnee(ev) < 400:
+                map2.bonus()
+            else:
+                pass
 
-    main(fichier_depart, fichier_temp)
+        elif tev == 'Quitte':  # on sort de la boucle
+            break
+
+        else:  # dans les autres cas, on ne fait rien
+            pass
+        fltk.mise_a_jour()
+    fltk.ferme_fenetre()
+#    main(fichier_depart, fichier_temp)

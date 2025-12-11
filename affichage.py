@@ -16,6 +16,10 @@ def fonct_mercator(latitude):
 
 
 def france(L, H, sf):
+    '''
+    fonction permettant de dessiner l'objet sf (dessine la france)
+    
+    '''
     L *= 1.5
     H *= 1.5
     ech = 4
@@ -26,6 +30,7 @@ def france(L, H, sf):
         shape = sf.shape(i)
         nbr_partie = len(shape.parts)
         partie = []
+        texte_dom_tom = []
         for k in range(nbr_partie):
             nouvelle_coordo = []
             # on fait une boucle avc
@@ -44,6 +49,23 @@ def france(L, H, sf):
                 x = (L/2) * (longitude - centre)*echh + (400/1600)*L
                 y = H - (H/2) * merc*ech + (1400/1200)*H
                 nouvelle_coordo.append((x,y))
+
+            dom_tom = ('La Réunion', 'Martinique', 'Guadeloupe', 'Guyane', 'Mayotte')
+            nom_shp = sf.record(i).nom
+            
+            if nom_shp in dom_tom:
+                ecart = dom_tom.index(nom_shp)
+                minx = min([x for x, _ in nouvelle_coordo])
+                miny = min([y for _, y in nouvelle_coordo])
+                echelle = 0.2 if nom_shp == 'Guyane' else 1
+                nouvelle_coordo = [((x-minx)*echelle+10, (y-miny)*echelle+250+50*ecart) for x, y in nouvelle_coordo]
+                
+                minx = min([x for x, _ in nouvelle_coordo])
+                maxy = max([y for _, y in nouvelle_coordo])
+                if nom_shp not in texte_dom_tom:
+                    fltk.texte(minx, maxy+5, nom_shp, taille=10)
+                    texte_dom_tom.append(nom_shp)
+
             partie.append(nouvelle_coordo)
         total.append(partie)
     return total
@@ -62,16 +84,16 @@ def dessiner(france_points: list, couleur: list):
 
 def afficher_degres(l, h):
     y = 0
-    for i in range(0, 40, 5): 
-        fltk.texte(l-40, y, str(i)+"°", taille=10)
-        y += h/8
+    for i in range(-15, 40, 5):
+        fltk.texte(l-42, y, str(i)+"°", taille=10)
+        y += h/10
 
 
 def afficher_degrade(couleurs, l,h):
     y = 0
     for c in couleurs:
-        fltk.rectangle(l-20, y, l, y+h/40, couleur=c, remplissage=c)
-        y += h/40
+        fltk.rectangle(l-20, y, l, y+h/50, couleur=c, remplissage=c)
+        y += h/50
 
 
 def effacer_dep(sf):
@@ -81,9 +103,19 @@ def effacer_dep(sf):
     for i in range(len(sf.shapes())):
         fltk.efface(f"polygon_{i}")
 
-def titre(H, L):
+def titre(H,L):
+    '''
+    Afficher le titre de la Carte
+
+    '''
     fltk.texte(L/2,20, "Carte des variations de température en France", taille=20, ancrage='center')
-    
+
+def datedynamique(H,L,date): 
+    '''
+    afficher dynamiquement la date en annee de l'affichage
+    '''
+    fltk.efface("tag1")  
+    fltk.texte(L/2,60, f"en {date}", taille=20, ancrage='center',tag="tag1")
 
 ################## teste de la methode sur une liste ########################
 """
