@@ -19,7 +19,7 @@ TAILLE_TXT_B = constante.TAILLE_TXT_B
 def main(f_depar, f_temp):
 
     borne = temp.borne_annee(f_temp)
-    annee = "2018"
+    annee = str(borne[0])
     departement = None
     precedent = None
     tmax = 0
@@ -49,6 +49,7 @@ def main(f_depar, f_temp):
         ev = fltk.donne_ev()
         obj_s = fltk.objet_survole()
         if fltk.type_ev(ev) == "ClicGauche":
+                
                 if fltk.est_objet_survole("reculer"):
                     result = interaction.reculer(f_temp, sf, annee, tmax, borne[0])
                     if len(result)==3:

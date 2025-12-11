@@ -75,10 +75,13 @@ def afficher_degrade(couleurs, l,h):
 
 
 def effacer_dep(sf):
+    """
+    Permet d'effacer tous les departements 
+    """
     for i in range(len(sf.shapes())):
         fltk.efface(f"polygon_{i}")
 
-def titre(H,L):
+def titre(H, L):
     fltk.texte(L/2,20, "Carte des variations de température en France", taille=20, ancrage='center')
     
 
