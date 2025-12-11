@@ -20,6 +20,7 @@ def france(L, H, sf):
     fonction permettant de dessiner l'objet sf (dessine la france)
     
     '''
+    original_h = H
     L *= 1.5
     H *= 1.5
     ech = 4
@@ -58,7 +59,7 @@ def france(L, H, sf):
                 minx = min([x for x, _ in nouvelle_coordo])
                 miny = min([y for _, y in nouvelle_coordo])
                 echelle = 0.2 if nom_shp == 'Guyane' else 1
-                nouvelle_coordo = [((x-minx)*echelle+10, (y-miny)*echelle+250+50*ecart) for x, y in nouvelle_coordo]
+                nouvelle_coordo = [((x-minx)*echelle+10, (y-miny)*echelle+(original_h//2-50)+(original_h//12*ecart)) for x, y in nouvelle_coordo]
                 
                 minx = min([x for x, _ in nouvelle_coordo])
                 maxy = max([y for _, y in nouvelle_coordo])
