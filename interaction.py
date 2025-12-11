@@ -1,7 +1,6 @@
 import fltk
 import math as m
 import constante
-import time
 import temperature as temp
 import affichage
 
@@ -17,7 +16,7 @@ TAILLE_TXT_B = constante.TAILLE_TXT_B
 
 def affichage_info(x1:float, y1:float, departement: int, tag:str, sf, temps_json, tmax: int = 0):
     """
-    Permet d'afficher le nom et la température du département
+    Permet d'afficher le nom et la température du département 
     """
     nom = sf.record(departement)[1]
     try: 
@@ -137,9 +136,10 @@ def avancer(f_temp, sf, annee, tmax, borne = 2025):
     Doit reafficher le dessin avec les temperatures de l'annee suivante si possible
     """
     n_annee = int(annee) + 1
+    
     if n_annee > borne:
         print("Vous ne pouvez pas avancer d'avantage dans le temps")
-        return annee
+        return str(annee)
     
     else:
         n_annee = str(n_annee)
@@ -154,30 +154,39 @@ def avancer(f_temp, sf, annee, tmax, borne = 2025):
 
 
 
-def animation(boole, f_temp, sf, annee, tmax, borne = 2025):
-    while boole:
-        if annee > borne:
-            annee -= 7
+def bouton_animation(l, h, taille_txt, boole ,marge = 5):
+    """
+    Créer le bouton pour arreter ou lancer l'animation 
+    """
+    try:
+        fltk.efface("animation")
+    except:
+        pass
 
-        for _ in range(7):
-            points, json, annee = avancer(f_temp, sf, annee, tmax)
-            annee +=1
-            time.sleep(5)
+    if boole:
+        chaine = "Stopper l'animation"
+    else:
+        chaine = "Animation"
 
-    return boole, points, json, annee
+    rect_x2, rect_y2, marge_x, marge_y = taille_info(len(chaine), taille_txt)
+    x1 = (20/1200)*l   
+    y1 = h - rect_y2 - marge - 110
+
+    fltk.rectangle(x1, y1, x1+rect_x2, y1+rect_y2, remplissage = "white", tag = "animation")
+    fltk.texte(x1+marge_x, y1+marge_y - marge,  chaine = chaine,
+                ancrage = "nw", taille = taille_txt, tag = "animation")
 
 
 
 def bouton_temp(l, h, taille_txt, marge = 5, tmax: int = 0):
     """
-    Créer le bouton pour changer entre les températures minimales et maximales
+    Créer le bouton permettant de changer entre les températures minimales et maximales
     """
     chaine = "Afficher température " 
-    chaine2 = "\ndans la bulle d'info"
     maxi = "maximale"
     mini = "minimale"
-    lon = max(len(chaine)+len(mini), len(chaine2)-2)
-    rect_x2, rect_y2, marge_x, marge_y = taille_info(lon, taille_txt, 2)
+    long = len(chaine) + len(mini)
+    rect_x2, rect_y2, marge_x, marge_y = taille_info(long, taille_txt, 2)
     x1 = (20/1200)*l  
     y1 = h - rect_y2 - marge - 40
     fltk.rectangle(x1, y1, x1 + rect_x2, y1 + rect_y2 , 
@@ -188,7 +197,7 @@ def bouton_temp(l, h, taille_txt, marge = 5, tmax: int = 0):
             fltk.efface("t_1")
         except:
             pass
-        chaine += maxi + chaine2
+        chaine += maxi
         fltk.texte(x1+marge_x, y1 + marge_y,  chaine = chaine,
                    ancrage = "nw", taille = taille_txt, tag = "t_0")
         return 1
@@ -197,12 +206,11 @@ def bouton_temp(l, h, taille_txt, marge = 5, tmax: int = 0):
             fltk.efface("t_0")
         except:
             pass
-        chaine += mini + chaine2
+        chaine += mini
         fltk.texte(x1 + marge_x, y1 + marge_y , chaine = chaine, 
                    ancrage = "nw", taille = taille_txt, tag = "t_1")
         
         return 0
-    
     
     
 
@@ -260,58 +268,3 @@ def affichageinfoavancé(H,L,departement: int, tag:str, sf, temps_json):
     fltk.rectangle(x1, y1, x2, y2, remplissage = "white", tag = tag)
     fltk.texte(x1/2, y1 - 3, [temperature, nom], ancrage = "center", tag=tag)
 
-
-
-"""x2 = L - 10
-y2 = H - 10
-x1 = x2 - 80
-y1 = y2 - 20
-
-fltk.rectangle(x1, y1, x2, y2, remplissage = "white", tag = "avancer")
-fltk.texte(x1 + 3, y1 - 3, chaine = "avancer", ancrage = "nw", taille = TAILLE_TXT_B)
-
-x2 = 90
-y2 = H-10
-x1 = 10
-y1 = y2 -20
-fltk.rectangle(x1, y1, x2, y2, remplissage = "white", tag = "reculer")
-fltk.texte(x1 +3, y1 - 2, chaine = "reculer", ancrage = "nw", taille = TAILLE_TXT_B)
-"""
-
-"""
-while True:
-
-    ev = fltk.donne_ev()
-    obj_s = fltk.objet_survole()
-
-    if fltk.type_ev(ev) == "ClicGauche":
-            if fltk.est_objet_survole("reculer"):
-                reculer()
-                
-            elif fltk.est_objet_survole("avancer"):
-                avancer()
-
-    elif fltk.type_ev(ev) == "Quitte":
-        fltk.efface_tout()
-        fltk.ferme_fenetre()
-
-    if obj_s:
-        tag = fltk.recuperer_tags(obj_s)
-        if tag and tag[0].startswith("polygon_"):
-            departement = int(tag[0].split("_")[1])
-            if departement is not None:
-                x, y = milieu(liste_points[departement])
-                affichage_info(x, y, departement, tag = f"t_{departement}")
-                #texte(x, y, 2, [sf.record(departement)[1]], tag = f"t_{departement}")
-
-        if precedent is not None and departement != precedent:
-            fltk.efface(f"t_{precedent}")
-        precedent = departement
-
-    else:
-        if precedent is not None:
-            fltk.efface(f"t_{precedent}")
-            
-    fltk.mise_a_jour()
-
-"""

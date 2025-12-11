@@ -5,7 +5,7 @@ import temperature as temp
 import interaction
 import couleurs
 import constante
-
+import time
 
 H = constante.H
 L = constante.L
@@ -18,21 +18,27 @@ TAILLE_TXT_B = constante.TAILLE_TXT_B
 
 def main(f_depar, f_temp):
 
+    borne = temp.borne_annee(f_temp)
     annee = "2018"
     departement = None
     precedent = None
     tmax = 0
     animat = False
+
     sf = shapefile.Reader(f_depar)
     t_json = temp.carte_exemple(annee, f_temp)
-    depart_couleurs = temp.couleur_departement(t_json, sf, tmax)
     fltk.cree_fenetre(L, H)
+
+
+    depart_couleurs = temp.couleur_departement(t_json, sf, tmax)
     l_polygon = affichage.france(L, H, sf)
     affichage.dessiner(l_polygon, depart_couleurs)
     affichage.titre(H,L)
+    # ajouter la date
 
     h_bouton = interaction.bouton_avancer(L, H, TAILLE_TXT_B)
     interaction.bouton_reculer(L, H, TAILLE_TXT_B)
+    interaction.bouton_animation(L, H, TAILLE_TXT_B, animat)
     interaction.bouton_temp(L, H, TAILLE_TXT_B, tmax = tmax)
     affichage.afficher_degrade(couleurs.COULEUR, L, H - h_bouton)
     affichage.afficher_degres(L, H - h_bouton)
@@ -42,17 +48,16 @@ def main(f_depar, f_temp):
 
         ev = fltk.donne_ev()
         obj_s = fltk.objet_survole()
-
         if fltk.type_ev(ev) == "ClicGauche":
                 if fltk.est_objet_survole("reculer"):
-                    result = interaction.reculer(f_temp, sf, annee, tmax)
+                    result = interaction.reculer(f_temp, sf, annee, tmax, borne[0])
                     if len(result)==3:
                         l_polygon, t_json, annee = result
                     else:
                         annee = result
                     
                 elif fltk.est_objet_survole("avancer"):
-                    result = interaction.avancer(f_temp, sf, annee, tmax)
+                    result = interaction.avancer(f_temp, sf, annee, tmax, borne[1])
                     if len(result)==3:
                         l_polygon, t_json, annee = result
                     else:
@@ -60,11 +65,13 @@ def main(f_depar, f_temp):
 
                 elif fltk.est_objet_survole("temp"):
                     tmax = interaction.bouton_temp(L, H, TAILLE_TXT_B, tmax=tmax)
-
+                    depart_couleurs = temp.couleur_departement(t_json, sf, tmax)
+                    affichage.dessiner(l_polygon, depart_couleurs)
+                    
                 elif fltk.est_objet_survole("animation"):
                     animat = not(animat)
-                    animat, l_polygon, t_json, annee = interaction.animation(animat, f_temp, sf, 
-                                                                     annee, tmax, borne = 2025)
+                    interaction.bouton_animation(L, H, TAILLE_TXT_B, animat)
+                    
                     
         elif fltk.type_ev(ev) == "Quitte":
             fltk.efface_tout()
@@ -85,7 +92,17 @@ def main(f_depar, f_temp):
         else:
             if precedent is not None:
                 fltk.efface(f"t_{precedent}")
-                
+        
+        if animat:
+            
+            result = interaction.avancer(f_temp, sf, annee, tmax)
+            l_polygon, t_json, annee = result
+            annee = borne[0] + (int(annee) - borne[0]) % (borne[1] - borne[0])
+            # ajouter la date
+            fltk.mise_a_jour()
+            time.sleep(1)
+            
+
         fltk.mise_a_jour()
 
 
