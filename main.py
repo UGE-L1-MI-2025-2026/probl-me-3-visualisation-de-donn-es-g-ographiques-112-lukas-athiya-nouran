@@ -29,7 +29,7 @@ def main(f_depar, f_temp):
     fltk.cree_fenetre(L, H)
     l_polygon = affichage.france(L, H, sf)
     affichage.dessiner(l_polygon, depart_couleurs)
-    affichage.titre(H,L)
+    affichage.titre(H,L, annee)
 
     h_bouton = interaction.bouton_avancer(L, H, TAILLE_TXT_B)
     interaction.bouton_reculer(L, H, TAILLE_TXT_B)
@@ -51,12 +51,18 @@ def main(f_depar, f_temp):
                     else:
                         annee = result
                     
+                    affichage.effacer_titre()
+                    affichage.titre(H,L, annee)
+
                 elif fltk.est_objet_survole("avancer"):
                     result = interaction.avancer(f_temp, sf, annee, tmax)
                     if len(result)==3:
                         l_polygon, t_json, annee = result
                     else:
                         annee = result
+
+                    affichage.effacer_titre()
+                    affichage.titre(H,L, annee)
 
                 elif fltk.est_objet_survole("temp"):
                     tmax = interaction.bouton_temp(L, H, TAILLE_TXT_B, tmax=tmax)

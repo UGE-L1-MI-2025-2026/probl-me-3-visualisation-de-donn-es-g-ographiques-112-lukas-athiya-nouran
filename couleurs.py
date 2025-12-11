@@ -1,10 +1,14 @@
+import matplotlib.pyplot as plt
+import numpy as np
+
+MIN = -15
+MAX = 39
+N = abs(MIN) + MAX
+
+cmap = plt.colormaps['turbo']
+valeurs = np.linspace(0, 1, N)
+
 COULEUR = [
-        "#190F81", "#220F88", "#2C108D", "#361192", "#3E1396",
-        "#47139A", "#4F149D", "#57169F", "#6017A1", "#681AA1",
-        "#701CA1", "#781FA0", "#7F239E", "#882899", "#8F2C96",
-        "#963290", "#9D398B", "#A33F86", "#A94581", "#AF4B7C",
-        "#B55377", "#BA576F", "#BF5E6E", "#C4656A", "#C96B66",
-        "#CE7362", "#D37A5F", "#D7815B", "#DB8958", "#DF9155",
-        "#E29953", "#E5A251", "#E8A950", "#EAB44F", "#EDBC4F",
-        "#EEC650", "#EFCF51", "#EFD853", "#F0E457", "#EFED5A"
-        ]
+    f"#{int(r * 255):02x}{int(g * 255):02x}{int(b * 255):02x}"
+    for (r, g, b, _) in cmap(valeurs)
+]

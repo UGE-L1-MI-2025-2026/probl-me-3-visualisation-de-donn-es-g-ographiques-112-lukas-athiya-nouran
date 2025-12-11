@@ -62,25 +62,28 @@ def dessiner(france_points: list, couleur: list):
 
 def afficher_degres(l, h):
     y = 0
-    for i in range(0, 40, 5): 
-        fltk.texte(l-40, y, str(i)+"°", taille=10)
-        y += h/8
+    for i in range(-15, 40, 5):
+        fltk.texte(l-42, y, str(i)+"°", taille=10)
+        y += h/10
 
 
 def afficher_degrade(couleurs, l,h):
     y = 0
     for c in couleurs:
-        fltk.rectangle(l-20, y, l, y+h/40, couleur=c, remplissage=c)
-        y += h/40
+        fltk.rectangle(l-20, y, l, y+h/50, couleur=c, remplissage=c)
+        y += h/50
 
 
 def effacer_dep(sf):
     for i in range(len(sf.shapes())):
         fltk.efface(f"polygon_{i}")
 
-def titre(H,L):
-    fltk.texte(L/2,20, "Carte des variations de température en France", taille=20, ancrage='center')
-    
+def titre(H,L, annee: str):
+    fltk.texte(L/2,20, f"Carte des variations de température en France ({annee})", taille=20, ancrage='center', tag="titre")
+
+def effacer_titre():
+    fltk.efface("titre")
+
 
 ################## teste de la methode sur une liste ########################
 """
