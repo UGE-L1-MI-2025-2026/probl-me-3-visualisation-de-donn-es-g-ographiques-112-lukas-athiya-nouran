@@ -58,7 +58,7 @@ def france(L, H, sf):
                 ecart = dom_tom.index(nom_shp)
                 minx = min([x for x, _ in nouvelle_coordo])
                 miny = min([y for _, y in nouvelle_coordo])
-                echelle = 0.2 if nom_shp == 'Guyane' else 1
+                echelle = 0.2 if nom_shp == 'Guyane' else 1.3
                 nouvelle_coordo = [((x-minx)*echelle+10, (y-miny)*echelle+(original_h//2-50)+(original_h//12*ecart)) for x, y in nouvelle_coordo]
                 
                 minx = min([x for x, _ in nouvelle_coordo])
@@ -93,7 +93,7 @@ def afficher_degres(l, h):
 def afficher_degrade(couleurs, l,h):
     y = 0
     for c in couleurs:
-        fltk.rectangle(l-20, y, l, y+h/50, couleur=c, remplissage=c)
+        fltk.rectangle(l-20, y-10, l, y+h/50, couleur=c, remplissage=c)
         y += h/50
 
 

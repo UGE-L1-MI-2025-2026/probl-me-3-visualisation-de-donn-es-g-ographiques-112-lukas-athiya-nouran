@@ -40,8 +40,8 @@ def main(f_depar, f_temp):
     interaction.bouton_reculer(L, H, TAILLE_TXT_B)
     interaction.bouton_animation(L, H, TAILLE_TXT_B, animat)
     interaction.change_temp(L, H, TAILLE_TXT_B, tmax = tmax)
-    affichage.afficher_degrade(couleurs.COULEUR, L, H - h_bouton)
-    affichage.afficher_degres(L, H - h_bouton)
+    affichage.afficher_degrade(couleurs.COULEUR, L, H - h_bouton-10)
+    affichage.afficher_degres(L, H - h_bouton-10)
     affichage.datedynamique(H,L,annee) 
 
     while True:
