@@ -46,3 +46,21 @@ def carte_exemple(annee, path: str):
                    temps_json[code] = (temps_json[code][0], mesure["tmin"])
         
     return temps_json
+
+
+def borne_annee(path):
+    """
+    Trouve et renvoit les bornes de temperature du fichier
+    """
+    with open(path, "r") as f:
+        donnee = json.load(f)
+    max = float("-inf")
+    min = float("+inf")
+    for dep in donnee:
+
+        if int(dep["date_obs"][:4]) > max:
+            max = int(dep["date_obs"][:4])
+
+        if int(dep["date_obs"][:4]) < min:
+            min = int(dep["date_obs"][:4])
+    return int(min), int(max)
