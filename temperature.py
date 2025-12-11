@@ -7,6 +7,9 @@ def temp_to_couleur(temp, couleurs = couleurs.COULEUR):
     elif temp >= 39:
         return couleurs[-1]
     indice = round(temp) + 15
+    if indice >= len(couleurs):
+        indice = len(couleurs) - 1
+
     return couleurs[indice]
 
 
@@ -39,10 +42,10 @@ def carte_exemple(annee, path: str):
            if code not in temps_json:
                temps_json[code] = mesure["tmax"], mesure["tmin"]
            else:
-               if temps_json[code][0] < mesure["tmax"]:
+               if mesure["tmax"] is not None and temps_json[code][0] < mesure["tmax"]:
                    temps_json[code] = (mesure["tmax"], temps_json[code][1])
 
-               if temps_json[code][1] > mesure["tmin"]:
+               if mesure["tmin"] is not None and temps_json[code][1] > mesure["tmin"]:
                    temps_json[code] = (temps_json[code][0], mesure["tmin"])
         
     return temps_json
