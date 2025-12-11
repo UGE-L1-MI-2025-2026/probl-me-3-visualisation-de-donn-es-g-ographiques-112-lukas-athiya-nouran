@@ -89,11 +89,15 @@ def afficher_degres(l, h):
         y += h/10
 
 
+
+
 def afficher_degrade(couleurs, l,h):
     y = 0
     for c in couleurs:
         fltk.rectangle(l-20, y, l, y+h/50, couleur=c, remplissage=c)
         y += h/50
+
+
 
 
 def effacer_dep(sf):
@@ -103,12 +107,16 @@ def effacer_dep(sf):
     for i in range(len(sf.shapes())):
         fltk.efface(f"polygon_{i}")
 
+
+
 def titre(H,L):
     '''
     Afficher le titre de la Carte
 
     '''
     fltk.texte(L/2,20, "Carte des variations de température en France", taille=20, ancrage='center')
+
+
 
 def datedynamique(H,L,date): 
     '''
@@ -117,39 +125,11 @@ def datedynamique(H,L,date):
     fltk.efface("tag1")  
     fltk.texte(L/2,60, f"en {date}", taille=20, ancrage='center',tag="tag1")
 
-################## teste de la methode sur une liste ########################
-"""
-points = [
-    # Partie 1
-    [(1.0, 44.0),
-    (1.1, 44.1),
-    (1.2, 44.0),
+def menu(l= 800, h = 600):
 
-    # Partie 2
-    (1.5, 44.2),
-    (1.6, 44.3),
-    (1.7, 44.2)]
-]
-
-liste = [0, 2, 4]
-len_l = len(liste)
-total = []
-
-for i in range(1):
-    partie = []
-    for k in range(len_l):
-        coord = []
-        debut = liste[k]
-        if k+1 < len(liste): # sil existe on prend l'indice
-            fin = liste[k+1]
-        else:
-            fin = len(points[i]) #sinon on prend la fin de la liste
-        print("debut",debut,"fin", fin)
-        for j in range(debut, fin):
-            print("j",j)
-            coord.append(points[i][j])
-        partie.append(coord)
-    total.append(partie)
-
-print(total)
-"""
+    fltk.cree_fenetre(l, h)
+    fltk.texte(l/2, 50, "Menu", taille=80, ancrage='center')
+    fltk.texte(l/2 - 100, 350, "France", taille=20, ancrage='center', tag = "france")
+    fltk.texte(l/2 + 100, 350, "Bonus", taille=20, ancrage='center', tag = "bonus")
+    fltk.rectangle(l/2 - 170, 300, l/2 - 20, 400, tag = "france")
+    fltk.rectangle(l/2 + 30 , 300, l/2+180, 400, tag = "bonus")

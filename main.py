@@ -113,30 +113,28 @@ if  __name__ == "__main__":
     fichier_depart = "data/departement_shapefile/departements-20180101.shp"
     fichier_temp = "data/temperature/temperature-quotidienne-departementale.json"
 
-    fltk.cree_fenetre(600,600)
-    fltk.texte(300,50, "Menu", taille=100, ancrage='center')
-    fltk.texte(150,350, "France", taille=20, ancrage='center')
-    fltk.texte(450,350, "Bonus", taille=20, ancrage='center')
-    fltk.rectangle(100,300,200,400)
-    fltk.rectangle(400,300,500,400)
+    affichage.menu()
+
     while True:
         ev = fltk.donne_ev()
         tev = fltk.type_ev(ev)
     
         if tev == "ClicGauche":
-            if 100<fltk.abscisse(ev)<200 and 300 < fltk.ordonnee(ev) < 400:
+            if fltk.est_objet_survole("france"):
                 fltk.ferme_fenetre()
                 main(fichier_depart, fichier_temp)
-            elif 400<fltk.abscisse(ev)<500 and 300 < fltk.ordonnee(ev) < 400:
+            elif fltk.est_objet_survole("bonus"):
+                fltk.ferme_fenetre()
                 map2.bonus()
             else:
                 pass
 
-        elif tev == 'Quitte':  # on sort de la boucle
+        elif tev == 'Quitte': 
             break
 
-        else:  # dans les autres cas, on ne fait rien
+        else: 
             pass
         fltk.mise_a_jour()
     fltk.ferme_fenetre()
-#    main(fichier_depart, fichier_temp)
+
+
