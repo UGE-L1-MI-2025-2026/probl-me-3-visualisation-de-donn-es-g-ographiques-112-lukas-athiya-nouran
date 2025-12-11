@@ -16,6 +16,10 @@ def fonct_mercator(latitude):
 
 
 def france(L, H, sf):
+    '''
+    fonction permettant de dessiner l'objet sf (dessine la france)
+    
+    '''
     L *= 1.5
     H *= 1.5
     ech = 4
@@ -79,8 +83,18 @@ def effacer_dep(sf):
         fltk.efface(f"polygon_{i}")
 
 def titre(H,L):
+    '''
+    Afficher le titre de la Carte
+
+    '''
     fltk.texte(L/2,20, "Carte des variations de température en France", taille=20, ancrage='center')
-    
+
+def datedynamique(H,L,date): 
+    '''
+    afficher dynamiquement la date en annee de l'affichage
+    '''
+    fltk.efface("tag1")  
+    fltk.texte(L/2,60, f"en {date}", taille=20, ancrage='center',tag="tag1")
 
 ################## teste de la methode sur une liste ########################
 """
