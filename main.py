@@ -39,7 +39,7 @@ def main(f_depar, f_temp):
     h_bouton = interaction.bouton_avancer(L, H, TAILLE_TXT_B)
     interaction.bouton_reculer(L, H, TAILLE_TXT_B)
     interaction.bouton_animation(L, H, TAILLE_TXT_B, animat)
-    interaction.bouton_temp(L, H, TAILLE_TXT_B, tmax = tmax)
+    interaction.change_temp(L, H, TAILLE_TXT_B, tmax = tmax)
     affichage.afficher_degrade(couleurs.COULEUR, L, H - h_bouton)
     affichage.afficher_degres(L, H - h_bouton)
     
@@ -64,7 +64,7 @@ def main(f_depar, f_temp):
                         annee = result
 
                 elif fltk.est_objet_survole("temp"):
-                    tmax = interaction.bouton_temp(L, H, TAILLE_TXT_B, tmax=tmax)
+                    tmax = interaction.change_temp(L, H, TAILLE_TXT_B, tmax=tmax)
                     depart_couleurs = temp.couleur_departement(t_json, sf, tmax)
                     affichage.dessiner(l_polygon, depart_couleurs)
                     

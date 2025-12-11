@@ -154,66 +154,6 @@ def avancer(f_temp, sf, annee, tmax, borne = 2025):
 
 
 
-def bouton_animation(l, h, taille_txt, boole ,marge = 5):
-    """
-    Créer le bouton pour arreter ou lancer l'animation 
-    """
-    try:
-        fltk.efface("animation")
-    except:
-        pass
-
-    if boole:
-        chaine = "Stopper l'animation"
-    else:
-        chaine = "Animation"
-
-    rect_x2, rect_y2, marge_x, marge_y = taille_info(len(chaine), taille_txt)
-    x1 = (20/1200)*l   
-    y1 = h - rect_y2 - marge - 110
-
-    fltk.rectangle(x1, y1, x1+rect_x2, y1+rect_y2, remplissage = "white", tag = "animation")
-    fltk.texte(x1+marge_x, y1+marge_y - marge,  chaine = chaine,
-                ancrage = "nw", taille = taille_txt, tag = "animation")
-
-
-
-def bouton_temp(l, h, taille_txt, marge = 5, tmax: int = 0):
-    """
-    Créer le bouton permettant de changer entre les températures minimales et maximales
-    """
-    chaine = "Afficher température " 
-    maxi = "maximale"
-    mini = "minimale"
-    long = len(chaine) + len(mini)
-    rect_x2, rect_y2, marge_x, marge_y = taille_info(long, taille_txt, 2)
-    x1 = (20/1200)*l  
-    y1 = h - rect_y2 - marge - 40
-    fltk.rectangle(x1, y1, x1 + rect_x2, y1 + rect_y2 , 
-                   remplissage = "white", tag = "temp")
-    
-    if tmax == 0:
-        try:
-            fltk.efface("t_1")
-        except:
-            pass
-        chaine += maxi
-        fltk.texte(x1+marge_x, y1 + marge_y,  chaine = chaine,
-                   ancrage = "nw", taille = taille_txt, tag = "t_0")
-        return 1
-    else:
-        try:
-            fltk.efface("t_0")
-        except:
-            pass
-        chaine += mini
-        fltk.texte(x1 + marge_x, y1 + marge_y , chaine = chaine, 
-                   ancrage = "nw", taille = taille_txt, tag = "t_1")
-        
-        return 0
-    
-    
-
 
 def bouton_reculer(l, h, taille_txt, marge = 5):
     """
@@ -247,7 +187,76 @@ def bouton_avancer(l, h, taille_txt, marge = 5):
 
 
 
-def affichageinfoavancé(H,L,departement: int, tag:str, sf, temps_json):
+def bouton_animation(l, h, taille_txt, boole ,marge = 5):
+    """
+    Créer le bouton pour arreter ou lancer l'animation 
+    """
+    try:
+        fltk.efface("animation")
+    except:
+        pass
+
+    if boole:
+        chaine = "Stopper l'animation"
+    else:
+        chaine = "Animation"
+
+    rect_x2, rect_y2, marge_x, marge_y = taille_info(len(chaine), taille_txt)
+    x1 = (20/1200)*l   
+    y1 = h - rect_y2 - marge - 80
+
+    fltk.rectangle(x1, y1, x1+rect_x2, y1+rect_y2, remplissage = "white", tag = "animation")
+    fltk.texte(x1+marge_x, y1+marge_y - marge,  chaine = chaine,
+                ancrage = "nw", taille = taille_txt, tag = "animation")
+
+
+
+def change_temp(l, h, taille_txt, marge = 5, tmax: int = 0):
+    """
+    Créer un bouton et permet de changer entre les températures minimales et maximales
+    """
+    chaine = "Afficher température " 
+    maxi = "maximale"
+    mini = "minimale"
+    long = len(chaine) + len(mini)
+    rect_x2, rect_y2, marge_x, marge_y = taille_info(long, taille_txt)
+    x1 = (20/1200)*l  
+    y1 = h - rect_y2 - marge - 40
+    fltk.rectangle(x1, y1, x1 + rect_x2, y1 + rect_y2 , 
+                   remplissage = "white", tag = "temp")
+    
+    if tmax == 0:
+        try:
+            fltk.efface("t_1")
+        except:
+            pass
+        chaine += maxi
+        fltk.texte(x1+marge_x, y1 + marge_y,  chaine = chaine,
+                   ancrage = "nw", taille = taille_txt, tag = "t_0")
+        return 1
+    else:
+        try:
+            fltk.efface("t_0")
+        except:
+            pass
+        chaine += mini
+        fltk.texte(x1 + marge_x, y1 + marge_y , chaine = chaine, 
+                   ancrage = "nw", taille = taille_txt, tag = "t_1")
+        
+        return 0
+    
+
+
+
+
+
+
+
+
+
+
+
+def date(H,L,departement: int, tag:str, sf, temps_json):
     """
     Permet d'afficher le nom et la température du département
     """
