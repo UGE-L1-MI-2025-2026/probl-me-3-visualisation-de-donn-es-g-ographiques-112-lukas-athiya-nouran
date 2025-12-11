@@ -1,6 +1,6 @@
 import math as m
 import fltk
-import shapefile
+
 
 
 def conv_rad_degr(rad):
@@ -25,8 +25,6 @@ def france(L, H, sf):
     for i in range(len(sf.shapes())):
         shape = sf.shape(i)
         nbr_partie = len(shape.parts)
-        # s'il est en plusieurs parties on 
-        # itère sur les parties
         partie = []
         for k in range(nbr_partie):
             nouvelle_coordo = []
@@ -60,6 +58,8 @@ def dessiner(france_points: list, couleur: list):
             for partie in points_dep:
                 fltk.polygone(partie, remplissage= couleur[i], epaisseur = 1, tag = f"polygon_{i}")
 
+
+
 def afficher_degres(l, h):
     y = 0
     for i in range(0, 40, 5): 
@@ -74,66 +74,13 @@ def afficher_degrade(couleurs, l,h):
         y += h/40
 
 
-def france2():
-    H = 1200
-    L = 1600
-    HH = 600
-    LL = 800
-    ech = 4
-    echh = 3
-    sf = shapefile.Reader("departements-20140306-100m.shp") #ouverture du fichier shapefile
-    fltk.cree_fenetre(L, H)
-    centre = 0
-    total = []
-    for i in range(101):
-        nouvelle_coordo = []
-        for coord in sf.shape(i).points:
-            longitude, latitude = conv_degr_rad(coord[0]) , conv_degr_rad(coord[1])
-            merc = fonct_mercator(latitude)
-            x = (L/2) * (longitude - centre)*echh + 800
-            y = H - (H/2) * merc*ech + 1600
-            nouvelle_coordo.append((x,y))
-        nouvelle = []
-        for i in range(len(nouvelle_coordo)-1):
-            nouvelle.append(nouvelle_coordo[i]+nouvelle_coordo[i+1])
-        nouvelle = [points for points in nouvelle if m.sqrt((points[2]-points[0])**2+(points[3]-points[1])**2) <= 10]  
-        fltk.polygone(nouvelle,epaisseur=1.5)
-        #for points in nouvelle:
-           # if m.sqrt((points[2]-points[0])**2+(points[3]-points[1])**2) <= 10:
-             #   fltk.ligne(points[0],points[1],points[2],points[3],epaisseur=1.5)
-    fltk.mise_a_jour()
-    fltk.attend_ev()
-    fltk.ferme_fenetre()  
-
-
-def dessiner2(lezip):
-    H = 1200
-    L = 1600
-    HH = 600
-    LL = 800
-    ech = 4
-    echh = 3
-    sf = shapefile.Reader(lezip) #ouverture du fichier shapefile
-    print(sf.records())
-    fltk.cree_fenetre(L, H)
-    centre = 0
-    for i in range(0,813000,1000):
-        nouvelle_coordo = []
-        for coord in sf.shape(i).points:
-            longitude, latitude = conv_degr_rad(coord[0]) , conv_degr_rad(coord[1])
-            merc = fonct_mercator(latitude)
-            x = (L/2) * (longitude - centre)*echh + 800
-            y = H - (H/2) * merc*ech + 1600
-            nouvelle_coordo.append((x,y))
-        fltk.polygone(nouvelle_coordo, epaisseur = 1)
-        print(f"{i*100/826872} %")
-        fltk.mise_a_jour()
-    fltk.attend_ev()
-    fltk.ferme_fenetre()
+def effacer_dep(sf):
+    for i in range(len(sf.shapes())):
+        fltk.efface(f"polygon_{i}")
 
 def titre(H,L):
-    fltk.texte(L/2,20, "Carte des variations de température en France", taille=20,ancrage='center')
-
+    fltk.texte(L/2,20, "Carte des variations de température en France", taille=20, ancrage='center')
+    
 
 ################## teste de la methode sur une liste ########################
 """

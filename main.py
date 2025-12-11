@@ -16,22 +16,27 @@ TAILLE_TXT_B = constante.TAILLE_TXT_B
 
 
 
-def main(sf, temps_json):
+def main(f_depar, f_temp):
 
-    fltk.cree_fenetre(L, H)
-    depart_couleurs = temp.couleur_departement(couleurs.COULEUR, temps_json, sf)
-    liste_points = affichage.france(L, H, sf)
-    affichage.dessiner(liste_points, depart_couleurs)
+    annee = "2018"
     departement = None
     precedent = None
-    
+    tmax = 0
+    animat = False
+    sf = shapefile.Reader(f_depar)
+    t_json = temp.carte_exemple(annee, f_temp)
+    depart_couleurs = temp.couleur_departement(t_json, sf, tmax)
+    fltk.cree_fenetre(L, H)
+    l_polygon = affichage.france(L, H, sf)
+    affichage.dessiner(l_polygon, depart_couleurs)
     affichage.titre(H,L)
+
     h_bouton = interaction.bouton_avancer(L, H, TAILLE_TXT_B)
     interaction.bouton_reculer(L, H, TAILLE_TXT_B)
+    interaction.bouton_temp(L, H, TAILLE_TXT_B, tmax = tmax)
     affichage.afficher_degrade(couleurs.COULEUR, L, H - h_bouton)
     affichage.afficher_degres(L, H - h_bouton)
     
-
 
     while True:
 
@@ -40,11 +45,19 @@ def main(sf, temps_json):
 
         if fltk.type_ev(ev) == "ClicGauche":
                 if fltk.est_objet_survole("reculer"):
-                    interaction.reculer()
+                    l_polygon, t_json, annee = interaction.reculer(f_temp, sf, l_polygon, annee, tmax)
                     
                 elif fltk.est_objet_survole("avancer"):
-                    interaction.avancer()
+                    l_polygon, t_json, annee = interaction.avancer(f_temp, sf, l_polygon ,annee, tmax)
 
+                elif fltk.est_objet_survole("temp"):
+                    tmax = interaction.bouton_temp(L, H, TAILLE_TXT_B, tmax=tmax)
+
+                elif fltk.est_objet_survole("animation"):
+                    animat = not(animat)
+                    animat, l_polygon, t_json, annee = interaction.animation(animat, f_temp, sf, 
+                                                                     annee, tmax, borne = 2025)
+                    
         elif fltk.type_ev(ev) == "Quitte":
             fltk.efface_tout()
             fltk.ferme_fenetre()
@@ -54,9 +67,9 @@ def main(sf, temps_json):
             if tag and tag[0].startswith("polygon_"):
                 departement = int(tag[0].split("_")[1])
                 if departement is not None:
-                    x, y = interaction.milieu(liste_points[departement])
-                    interaction.affichage_info(x, y, departement, f"t_{departement}", sf, temps_json)
-                    interaction.affichageinfoavancé(H,L,departement, f"t_{departement}", sf, temps_json)
+                    x, y = interaction.milieu(l_polygon[departement])
+                    interaction.affichage_info(x, y, departement, f"t_{departement}",
+                                                sf, t_json, tmax)
                 
             if precedent is not None and departement != precedent:
                 fltk.efface(f"t_{precedent}")
@@ -70,7 +83,8 @@ def main(sf, temps_json):
 
     
 if  __name__ == "__main__":
-    sf = shapefile.Reader("data/departement_shapefile/departements-20180101.shp")
-    temps_json = temp.carte_exemple("data/temperature/temperature-quotidienne-departementale.json")
-    
-    main(sf, temps_json)
+    fichier_depart = "data/departement_shapefile/departements-20180101.shp"
+    fichier_temp = "data/temperature/temperature-quotidienne-departementale.json"
+
+
+    main(fichier_depart, fichier_temp)
