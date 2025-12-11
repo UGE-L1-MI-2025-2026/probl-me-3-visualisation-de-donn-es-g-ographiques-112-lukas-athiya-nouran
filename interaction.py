@@ -247,34 +247,3 @@ def change_temp(l, h, taille_txt, marge = 5, tmax: int = 0):
         return 0
     
 
-
-
-
-
-
-
-
-
-
-
-def date(H,L,departement: int, tag:str, sf, temps_json):
-    """
-    Permet d'afficher le nom et la température du département
-    """
-    x2 = L - 10
-    y2 = H - 10
-    x1 = x2 - 80
-    y1 = y2 - 20
-
-    nom = sf.record(departement)[1]
-    try: 
-        temperature = str(temps_json[sf.record(departement)[0]])
-    except:
-        print("Pas de donnée sur le département:", nom)
-        temperature = "???"
-    len_chaine = max(len(nom), len(temperature)+9) # taille de la chaine temp
-    
-    rect_x2, rect_y2, marge_x, marge_y = taille_info(len_chaine)
-    fltk.rectangle(x1, y1, x2, y2, remplissage = "white", tag = tag)
-    fltk.texte(x1/2, y1 - 3, [temperature, nom], ancrage = "center", tag=tag)
-
