@@ -9,6 +9,6 @@ cmap = plt.colormaps['turbo']
 valeurs = np.linspace(0, 1, N)
 
 COULEUR = [
-    f"#{int(r * 255):02x}{int(g * 255):02x}{int(b * 255):02x}"
+    f"#{int(r * 255):02X}{int(g * 255):02X}{int(b * 255):02X}"
     for (r, g, b, _) in cmap(valeurs)
 ]

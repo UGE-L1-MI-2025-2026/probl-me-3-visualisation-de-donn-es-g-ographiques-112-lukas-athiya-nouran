@@ -51,7 +51,7 @@ def france(L, H, sf):
                 y = H - (H/2) * merc*ech + (1400/1200)*H
                 nouvelle_coordo.append((x,y))
 
-            dom_tom = ('La Réunion', 'Martinique', 'Guadeloupe', 'Guyane', 'Mayotte')
+            dom_tom = ['La Réunion', 'Martinique', 'Guadeloupe', 'Guyane', 'Mayotte']
             nom_shp = sf.record(i).nom
             
             if nom_shp in dom_tom:

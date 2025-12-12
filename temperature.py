@@ -13,7 +13,7 @@ def temp_to_couleur(temp, couleurs = couleurs.COULEUR):
     return couleurs[indice]
 
 
-def couleur_departement(temps_json, sf, tmax: int = 0 ):
+def couleur_departement(temps_json, sf, tmax: int = 0):
     #tmax permet de choisir entre 
     # les temperature minimales (1) et maximales (0)
     depa_couleurs = []
@@ -29,8 +29,7 @@ def couleur_departement(temps_json, sf, tmax: int = 0 ):
     return depa_couleurs
 
 
-# la meme carte que l'exemple, date : 01/07/2018
-def carte_exemple(annee, path: str):
+def afficher_temperature(annee, path: str):
     temps_json = {}
     with open(path , "r") as file:
         donnee = json.load(file)

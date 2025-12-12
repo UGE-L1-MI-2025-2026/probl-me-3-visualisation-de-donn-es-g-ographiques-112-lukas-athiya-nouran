@@ -27,7 +27,7 @@ def main(f_depar, f_temp):
     animat = False
 
     sf = shapefile.Reader(f_depar)
-    t_json = temp.carte_exemple(annee, f_temp)
+    t_json = temp.afficher_temperature(annee, f_temp)
     fltk.cree_fenetre(L, H)
 
 

@@ -121,7 +121,7 @@ def reculer(f_temp, sf, annee, tmax, borne = 2018):
         return annee
     else:
         n_annee = str(n_annee)
-        temps_json = temp.carte_exemple(n_annee, f_temp)
+        temps_json = temp.afficher_temperature(n_annee, f_temp)
         depart_couleurs = temp.couleur_departement(temps_json, sf, tmax)
 
         affichage.effacer_dep(sf)
@@ -144,7 +144,7 @@ def avancer(f_temp, sf, annee, tmax, borne = 2025):
     
     else:
         n_annee = str(n_annee)
-        temps_json = temp.carte_exemple(n_annee, f_temp)
+        temps_json = temp.afficher_temperature(n_annee, f_temp)
         depart_couleurs = temp.couleur_departement(temps_json, sf, tmax)
 
         affichage.effacer_dep(sf)
